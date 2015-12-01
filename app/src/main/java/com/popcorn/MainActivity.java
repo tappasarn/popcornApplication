@@ -2,9 +2,13 @@ package com.popcorn;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.res.Configuration;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +21,10 @@ public class MainActivity extends ActionBarActivity {
     private String[] titles;
     private ListView drawerList;
     private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
+
+
+
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
@@ -40,6 +48,26 @@ public class MainActivity extends ActionBarActivity {
         if (savedInstanceState == null) {
             selectItem(0);
         }
+
+        //Create the ActionBarDrawerToggle
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+                R.string.open_drawer, R.string.close_drawer) {
+            //Called when a drawer has settled in a completely closed state
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                invalidateOptionsMenu();
+            }
+            //Called when a drawer has settled in a completely open state.
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                invalidateOptionsMenu();
+            }
+        };
+        drawerLayout.setDrawerListener(drawerToggle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+
     }
 
     private void selectItem(int position) {
@@ -78,5 +106,27 @@ public class MainActivity extends ActionBarActivity {
         }
         getSupportActionBar().setTitle(title);
     }
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
+    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        else{
+            return super.onOptionsItemSelected(item);
+        }
+        }
+
 
 }
+
