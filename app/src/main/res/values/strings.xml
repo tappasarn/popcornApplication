@@ -8,10 +8,12 @@
 
     <string-array name="titles">
         <item>Recommend</item>
-        <item>Add Movie</item>
+        <item>Create Review</item>
         <item>Friends</item>
         <item>Profile</item>
     </string-array>
+
+    <string name="hint_comment">Comment ..</string>
 
     <string name="open_drawer">Open drawer</string>
     <string name="close_drawer">Close drawer</string>

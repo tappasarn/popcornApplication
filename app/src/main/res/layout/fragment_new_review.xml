@@ -1,11 +1,93 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
     <TextView
-        android:text="New Movie"
-        android:textSize="40dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</RelativeLayout>
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Movie Name"
+        android:id="@+id/textView5"
+        android:textSize="12dp"
+        android:layout_marginLeft="5dp" />
+
+    <android.support.v7.widget.AppCompatAutoCompleteTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/movie_autocomplete"/>
+
+    <com.popcorn.hacks.CustomTextInputLayout
+        android:id="@+id/input_layout_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/input_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_comment" />
+
+    </com.popcorn.hacks.CustomTextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Rate Movie"
+        android:id="@+id/textView6"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="12dp"
+        android:layout_marginLeft="5dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/star1"
+            android:src="@drawable/ic_star_grey600_48dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/star2"
+            android:src="@drawable/ic_star_outline_grey600_48dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/star3"
+            android:src="@drawable/ic_star_outline_grey600_48dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/star4"
+            android:src="@drawable/ic_star_outline_grey600_48dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/star5"
+            android:src="@drawable/ic_star_outline_grey600_48dp" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ADD REVIEW"
+        android:id="@+id/button"
+        android:layout_marginTop="20dp" />
+
+</LinearLayout>
