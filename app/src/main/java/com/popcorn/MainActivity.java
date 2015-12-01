@@ -3,6 +3,7 @@ package com.popcorn;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -71,6 +72,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void selectItem(int position) {
+
 // update the main content by replacing fragments
         Fragment fragment;
         switch(position) {

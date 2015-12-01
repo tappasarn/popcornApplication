@@ -4,16 +4,53 @@
     android:layout_gravity="center"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    card_view:cardCornerRadius="4dp"
+    card_view:cardCornerRadius="10dp"
+    android:layout_marginTop="10dip"
+    android:layout_marginBottom="10dip"
+    android:layout_marginLeft="15dip"
+    android:layout_marginRight="15dip"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:text="Movie Name"
+                android:layout_weight="1"
+                android:textSize="25dp"
+                android:id="@+id/card_text"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/primary"
+                android:gravity="center_vertical"
+                android:textColor="@color/icons"
+                android:paddingLeft="10dp"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:layout_weight="0.8"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:background="#d5ebca"
+                android:text="Rating"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_weight="1.2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:textSize="50dp"
+                android:text="5"
+                android:background="#d5ebca"
+                android:gravity="center_horizontal|top"
+                android:textStyle="normal"
+                android:autoText="true"
+                android:layout_gravity="center_horizontal" />
+
+
+        </LinearLayout>
 
 
 
-        <TextView
-            android:text="Recommend"
-            android:textSize="40dp"
-            android:id="@+id/card_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
     </android.support.v7.widget.CardView>
