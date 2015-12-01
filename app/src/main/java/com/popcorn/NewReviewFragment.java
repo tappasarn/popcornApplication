@@ -53,7 +53,20 @@ public class NewReviewFragment extends Fragment {
         stars[3] = (ImageView) view.findViewById(R.id.star4);
         stars[4] = (ImageView) view.findViewById(R.id.star5);
 
-        for (int i = 0; i < 5; i++) {
+        // Toggle on first star
+        stars[0].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (rating == 1) {
+                    rating = 0;
+                } else {
+                    rating = 1;
+                }
+                redrawSelectedStars();
+            }
+        });
+
+        for (int i = 1; i < 5; i++) {
             final int loopIndex = i;
             stars[i].setOnClickListener(new View.OnClickListener() {
                 final int ratingValue = loopIndex + 1;
