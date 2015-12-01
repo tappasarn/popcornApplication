@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 
@@ -22,6 +24,8 @@ public class NewReviewFragment extends Fragment {
     // UIs
     private ImageView[] stars = new ImageView[5];
     private Button addReviewBtn;
+    private AutoCompleteTextView movieEditText;
+    private EditText commentEditText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,6 +35,7 @@ public class NewReviewFragment extends Fragment {
 
         initializeStars(view);
         initializeButtons(view);
+        initializeEditTexts(view);
 
         AppCompatAutoCompleteTextView autoCompleteTextView =
                 (AppCompatAutoCompleteTextView) view.findViewById(R.id.movie_autocomplete);
@@ -42,7 +47,6 @@ public class NewReviewFragment extends Fragment {
     }
 
     private void initializeStars(View view) {
-
         stars[0] = (ImageView) view.findViewById(R.id.star1);
         stars[1] = (ImageView) view.findViewById(R.id.star2);
         stars[2] = (ImageView) view.findViewById(R.id.star3);
@@ -60,11 +64,9 @@ public class NewReviewFragment extends Fragment {
                 }
             });
         }
-
     }
 
     private void initializeButtons(View view) {
-
         addReviewBtn = (Button) view.findViewById(R.id.addReviewBtn);
         addReviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +74,11 @@ public class NewReviewFragment extends Fragment {
 
             }
         });
+    }
 
+    private void initializeEditTexts(View view) {
+        movieEditText = (AutoCompleteTextView) view.findViewById(R.id.movie_autocomplete);
+        commentEditText = (EditText) view.findViewById(R.id.commentEditText);
     }
 
     private void redrawSelectedStars() {
