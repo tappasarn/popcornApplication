@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 
 
@@ -20,6 +21,7 @@ public class NewReviewFragment extends Fragment {
 
     // UIs
     private ImageView[] stars = new ImageView[5];
+    private Button addReviewBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,6 +30,7 @@ public class NewReviewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_new_review, container, false);
 
         initializeStars(view);
+        initializeButtons(view);
 
         AppCompatAutoCompleteTextView autoCompleteTextView =
                 (AppCompatAutoCompleteTextView) view.findViewById(R.id.movie_autocomplete);
@@ -57,6 +60,18 @@ public class NewReviewFragment extends Fragment {
                 }
             });
         }
+
+    }
+
+    private void initializeButtons(View view) {
+
+        addReviewBtn = (Button) view.findViewById(R.id.addReviewBtn);
+        addReviewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
 
