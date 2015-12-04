@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 public class SuggestionFragment extends Fragment {
 
-    private String[]  myDataSet = {"time","nut"};
+    private String[]  myDataSet = {"time","nut","Tae","Boss","Rob"};
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;

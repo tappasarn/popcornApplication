@@ -3,6 +3,11 @@ package com.popcorn;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.res.Configuration;
+<<<<<<< HEAD
+=======
+import android.graphics.Color;
+import android.support.v7.app.ActionBarActivity;
+>>>>>>> master
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -69,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void selectItem(int position) {
 
-        // Update the main content by replacing fragments
         Fragment fragment;
         switch(position) {
             case 1: fragment = new NewReviewFragment();  break;

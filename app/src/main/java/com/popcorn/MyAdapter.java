@@ -21,6 +21,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         }
     }
 
+    //change Sring here to be an array of object
     public MyAdapter(String[] myDataset) {
         mDataset = myDataset;
     }
