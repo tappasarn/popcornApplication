@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new Friends();
                 break;
             case 3:
-                fragment = new Profile();
+                fragment = new ProfileFragment();
                 break;
             default:
                 fragment = new RecommendList();
