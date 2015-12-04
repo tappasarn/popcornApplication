@@ -21,7 +21,7 @@ import com.popcorn.config.Configurations;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     // Volley
     private RequestQueue requestQueue;
@@ -79,11 +79,11 @@ public class Login extends AppCompatActivity {
                         public void onResponse(JSONObject response) {
                             try {
                                 if (!response.getBoolean("error")) {
-                                    Intent intent = new Intent(Login.this, MainActivity.class);
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(intent);
                                 }
                                 else {
-                                    Toast.makeText(Login.this, "Incorrect username/password :3", Toast.LENGTH_SHORT)
+                                    Toast.makeText(LoginActivity.this, "Incorrect username/password :3", Toast.LENGTH_SHORT)
                                             .show();
                                 }
                             } catch (JSONException e) {
@@ -106,7 +106,7 @@ public class Login extends AppCompatActivity {
     }
 
     public void onSignUpBtnClick(View view){
-        Intent intent = new Intent(Login.this,SingUpPage.class);
+        Intent intent = new Intent(LoginActivity.this,SignUpActivity.class);
         startActivity(intent);
     }
 

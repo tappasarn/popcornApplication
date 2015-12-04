@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             case 1: fragment = new NewReviewFragment();  break;
             case 2: fragment = new Friends(); break;
             case 3: fragment = new ProfileFragment(); break;
-            default: fragment = new RecommendList();
+            default: fragment = new SuggestionFragment();
         }
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();

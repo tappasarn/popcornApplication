@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 
 
-public class RecommendList extends Fragment {
+public class SuggestionFragment extends Fragment {
 
     private String[]  myDataSet = {"time","nut"};
 
