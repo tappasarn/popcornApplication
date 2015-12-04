@@ -68,20 +68,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void selectItem(int position) {
+
         // Update the main content by replacing fragments
         Fragment fragment;
         switch(position) {
-            case 1:
-                fragment = new NewReviewFragment();
-                break;
-            case 2:
-                fragment = new Friends();
-                break;
-            case 3:
-                fragment = new ProfileFragment();
-                break;
-            default:
-                fragment = new RecommendList();
+            case 1: fragment = new NewReviewFragment();  break;
+            case 2: fragment = new Friends(); break;
+            case 3: fragment = new ProfileFragment(); break;
+            default: fragment = new RecommendList();
         }
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();
