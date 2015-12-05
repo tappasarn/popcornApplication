@@ -1,7 +1,7 @@
 Activities Check List
-- [ ] MainActivity
+- [ ] MainActivity  
 Provide activity for fragments.
-- [ ] LoginActivity
+- [ ] LoginActivity  
 First activity that is launched when the app is opened.
-- [ ] SignupActivity
+- [ ] SignupActivity  
 Activity that allow user to register for an account.
