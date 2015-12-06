@@ -3,7 +3,12 @@ package com.popcorn.fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -12,13 +17,31 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.popcorn.R;
+import com.popcorn.config.Configurations;
+import com.popcorn.data.Movie;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 
 public class NewReviewFragment extends Fragment {
 
-    private ArrayAdapter<String> mAdapter;
-    private String[] dataSet = new String[]{"Tae", "Tang", "Mhaii", "Robroo", "Time", "Ireen"};
+    private ArrayAdapter<Movie> mAdapter;
+    private List<Movie> autoCompleteDataSet = new ArrayList<>();
 
     private int rating;
 
@@ -29,6 +52,19 @@ public class NewReviewFragment extends Fragment {
     private AutoCompleteTextView movieEditText;
     private EditText commentEditText;
 
+    // Volley
+    RequestQueue requestQueue;
+
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Volley
+        requestQueue = Volley.newRequestQueue(getActivity());
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,14 +74,84 @@ public class NewReviewFragment extends Fragment {
         initializeStars(view);
         initializeButtons(view);
         initializeEditTexts(view);
-
-        AppCompatAutoCompleteTextView autoCompleteTextView =
-                (AppCompatAutoCompleteTextView) view.findViewById(R.id.movie_autocomplete);
-
-        mAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, dataSet);
-        autoCompleteTextView.setAdapter(mAdapter);
+        initializeAutoCompleteTextView(view);
 
         return view;
+    }
+
+    private void initializeAutoCompleteTextView(View view) {
+
+        final AppCompatAutoCompleteTextView autoCompleteTextView =
+                (AppCompatAutoCompleteTextView) view.findViewById(R.id.movie_autocomplete);
+
+        autoCompleteTextView.setThreshold(1);
+
+        mAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, autoCompleteDataSet);
+        autoCompleteTextView.setAdapter(mAdapter);
+
+        autoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                String searchQuery = URLEncoder.encode(autoCompleteTextView.getText().toString()).replace("+", "%20");
+                String endpointUrl = Configurations.API.MOVIE_SEARCH_URL + searchQuery;
+
+                Log.d("DEBUG", searchQuery);
+                Log.d("DEBUG", endpointUrl);
+
+                if (true) {
+
+                    JsonObjectRequest request = new JsonObjectRequest(
+                            Request.Method.GET, endpointUrl, "",
+
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        mAdapter.clear();
+                                        Log.d("DEBUG", response.toString());
+                                        JSONArray movies = response.getJSONArray("movies");
+
+                                        for (int i = 0; i < movies.length(); i++) {
+                                            JSONObject movie = movies.getJSONObject(i);
+                                            long id = movie.getLong("id");
+                                            String title = movie.getString("title");
+                                            int year = movie.getInt("year");
+
+                                            mAdapter.add(new Movie(id, title, year));
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    } finally {
+                                        mAdapter.notifyDataSetChanged();
+                                        Log.d("DEBUG", autoCompleteDataSet.toString());
+                                    }
+                                }
+                            },
+
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+
+                                }
+                            }
+                    );
+                    requestQueue.add(request);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
 
     private void initializeStars(View view) {

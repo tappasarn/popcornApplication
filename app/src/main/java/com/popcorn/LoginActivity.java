@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
            intent.putExtra(Configurations.REVALIDATE_TOKEN, true);
            startActivity(intent);
+           finish();
        }
 
     }
