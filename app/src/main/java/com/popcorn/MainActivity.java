@@ -2,10 +2,14 @@ package com.popcorn;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
@@ -13,12 +17,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.popcorn.config.Configurations;
 import com.popcorn.data.UserInfo;
 import com.popcorn.fragments.Friends;
 import com.popcorn.fragments.NewReviewFragment;
 import com.popcorn.fragments.ProfileFragment;
 import com.popcorn.fragments.SuggestionFragment;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,10 +40,16 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
 
+    // Volley
+    private RequestQueue requestQueue;
+
+    private SharedPreferences sharedPreferences;
+
+    private ProgressDialog loadingDialog;
+
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            //Code to run when an item in the navigation drawer gets clicked
             selectItem(position);
         }
     }
@@ -39,7 +58,33 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        initDrawer(savedInstanceState);
+
+        // SharedPreferences
+        sharedPreferences = getApplication().getSharedPreferences(
+                Configurations.SHARED_PREF_KEY, MODE_PRIVATE);
+
+        // Volley
+        requestQueue = Volley.newRequestQueue(MainActivity.this);
+
+        // Intent
+        Intent receivedIntent = getIntent();
+
+        // Perform validation of token if previous activity request so
+        boolean revalidateToken = receivedIntent.getBooleanExtra(Configurations.REVALIDATE_TOKEN, true);
+        if (revalidateToken) {
+            loadingDialog = ProgressDialog.show(
+                    MainActivity.this, "Validating your credentials", "Please wait .. This may takes serveral seconds");
+            validateToken(sharedPreferences.getString(Configurations.USER_TOKEN, ""));
+        }
+
+
+
+    }
+
+    private void initDrawer(Bundle savedInstanceState) {
         titles = getResources().getStringArray(R.array.titles);
         drawerList = (ListView)findViewById(R.id.drawer);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -69,17 +114,28 @@ public class MainActivity extends AppCompatActivity {
         };
 
         drawerLayout.setDrawerListener(drawerToggle);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void selectItem(int position) {
 
-        Fragment fragment;
+        Fragment fragment = new SuggestionFragment();
         switch(position) {
             case 1: fragment = new NewReviewFragment();  break;
             case 2: fragment = new Friends(); break;
             case 3: fragment = new ProfileFragment(); break;
+            case 4:
+                // Sign out, clear the shared preference
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.commit();
+                // Start LoginActivity
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                // Make a call to finish, so that event if user comes back to this activity,
+                // the activity will terminate anyway.
+                finish();
+                // Explicit return will avoid ft replacing current fragment with a null
+                return;
             default: fragment = new SuggestionFragment();
         }
 
@@ -104,6 +160,45 @@ public class MainActivity extends AppCompatActivity {
             title = titles[position];
         }
         getSupportActionBar().setTitle(title);
+    }
+
+    private void validateToken(String token) {
+
+        String endpointURL = Configurations.API.USER_INFO_URL + token;
+        Log.d("DEBUG", endpointURL);
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET, endpointURL, "",
+
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("DEBUG", response.toString());
+                        try {
+                            if (!response.getBoolean("error")) {
+                                loadingDialog.cancel();
+                            }
+                            else {
+                                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        );
+
+        requestQueue.add(request);
+
     }
 
     @Override
