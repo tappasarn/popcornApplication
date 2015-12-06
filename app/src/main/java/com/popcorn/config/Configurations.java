@@ -23,6 +23,9 @@ public class Configurations {
         public static final String SIGNUP_URL = API_BASE_URL + "/users/create";
         public static final String USER_INFO_URL = API_BASE_URL + "/users/";
 
+        // Movie related endpoints
+        public static final String MOVIE_SEARCH_URL = API_BASE_URL + "/movies/search/";
+
     }
 
     // ------------------ Intent Flags ------------------------------------------
