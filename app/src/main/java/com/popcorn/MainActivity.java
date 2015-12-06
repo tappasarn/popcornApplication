@@ -13,6 +13,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.popcorn.config.Configurations;
+import com.popcorn.data.UserInfo;
+import com.popcorn.fragments.Friends;
+import com.popcorn.fragments.NewReviewFragment;
+import com.popcorn.fragments.ProfileFragment;
+import com.popcorn.fragments.SuggestionFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     private String[] titles;
@@ -64,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.setDrawerListener(drawerToggle);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     private void selectItem(int position) {
