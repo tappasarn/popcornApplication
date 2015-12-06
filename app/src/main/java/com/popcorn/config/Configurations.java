@@ -14,10 +14,19 @@ public class Configurations {
 
     // ------------------ APIs --------------------------------------------------
 
-    public static final String API_BASE_URL = "http://10.0.3.2:3000";
+    public static class API {
 
-    // Users related endpoints
-    public static final String LOGIN_URL = API_BASE_URL + "/users/login";
-    public static final String SIGNUP_URL = API_BASE_URL + "/users/create";
+        public static final String API_BASE_URL = "http://10.0.3.2:3000";
+
+        // Users related endpoints
+        public static final String LOGIN_URL = API_BASE_URL + "/users/login";
+        public static final String SIGNUP_URL = API_BASE_URL + "/users/create";
+        public static final String USER_INFO_URL = API_BASE_URL + "/users/";
+
+    }
+
+    // ------------------ Intent Flags ------------------------------------------
+
+    public static final String REVALIDATE_TOKEN = "com.popcorn.revalidate_token";
 
 }
