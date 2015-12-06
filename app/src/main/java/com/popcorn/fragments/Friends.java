@@ -1,4 +1,4 @@
-package com.popcorn;
+package com.popcorn.fragments;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
+import com.popcorn.FriendsListAdapter;
+import com.popcorn.R;
 
 import java.util.ArrayList;
 import java.util.List;

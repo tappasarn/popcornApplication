@@ -1,4 +1,4 @@
-package com.popcorn;
+package com.popcorn.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import com.popcorn.R;
 
 
 public class NewReviewFragment extends Fragment {
