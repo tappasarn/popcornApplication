@@ -55,6 +55,8 @@ public class SignUpActivity extends AppCompatActivity {
         // SharedPreference
         sharedPreferences = getApplication().getSharedPreferences(
                 Configurations.SHARED_PREF_KEY, MODE_PRIVATE);
+
+
     }
 
     public void onSignUpBtnClick(View view) {
@@ -91,7 +93,7 @@ public class SignUpActivity extends AppCompatActivity {
         if (!jsonBuildError) {
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                    Request.Method.POST, Configurations.SIGNUP_URL, requestObj,
+                    Request.Method.POST, Configurations.API.SIGNUP_URL, requestObj,
 
                     new Response.Listener<JSONObject>() {
                         @Override
@@ -114,7 +116,10 @@ public class SignUpActivity extends AppCompatActivity {
                                     editor.commit();
 
                                     Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                                    intent.putExtra(Configurations.REVALIDATE_TOKEN, false);
                                     startActivity(intent);
+
+                                    finish();
                                 } else {
                                     JSONArray errorMessages = response.getJSONArray("msg");
                                     Log.d("DEBUG", errorMessages.toString());
