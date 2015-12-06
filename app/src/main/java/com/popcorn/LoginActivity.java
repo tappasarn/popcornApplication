@@ -47,6 +47,15 @@ public class LoginActivity extends AppCompatActivity {
        sharedPreferences = getApplication().getSharedPreferences(
                Configurations.SHARED_PREF_KEY, MODE_PRIVATE);
 
+       // Start MainActivity right away if token exists
+       // However, put an extra flag to tells MainActivity to do validation again
+       String token = sharedPreferences.getString(Configurations.USER_TOKEN, "");
+       if (token.length() > 0) {
+           Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+           intent.putExtra(Configurations.REVALIDATE_TOKEN, true);
+           startActivity(intent);
+       }
+
     }
 
     @Override
@@ -95,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
         if (!jsonError) {
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                    Request.Method.POST, Configurations.LOGIN_URL, requestObj,
+                    Request.Method.POST, Configurations.API.LOGIN_URL, requestObj,
 
                     new Response.Listener<JSONObject>() {
                         @Override
@@ -117,7 +126,10 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.commit();
 
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    intent.putExtra(Configurations.REVALIDATE_TOKEN, false);
                                     startActivity(intent);
+
+                                    finish();
                                 }
                                 else {
                                     Toast.makeText(LoginActivity.this, "Incorrect username/password :3", Toast.LENGTH_SHORT)
@@ -146,4 +158,5 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
         startActivity(intent);
     }
+
 }
