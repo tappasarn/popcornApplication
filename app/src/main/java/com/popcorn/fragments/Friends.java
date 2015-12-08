@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -20,8 +21,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.popcorn.AddFriendID;
 import com.popcorn.FriendsListAdapter;
 import com.popcorn.LoginActivity;
+import com.popcorn.MainActivity;
 import com.popcorn.R;
 import com.popcorn.config.Configurations;
 import com.popcorn.data.UserInfo;
@@ -36,7 +39,8 @@ import java.util.List;
 
 public class Friends extends Fragment {
     private SharedPreferences sharedPreferences;
-    private List<String>  myDataSet;
+    private List<String> myDataSet;
+    private List<String> imageSet;
     private FriendsListAdapter listAdapter;
     private ListView friendsListView;
     private UserInfo userinfo;
@@ -45,11 +49,14 @@ public class Friends extends Fragment {
     private JSONObject jsonObj;
     private JSONObject jsonProfile;
     private JSONArray jsonArray;
+    private Button addButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         myDataSet = new ArrayList<>();
+        imageSet = new ArrayList<>();
+
         // set up request queue
         requestQueue = Volley.newRequestQueue(getActivity());
 
@@ -65,18 +72,29 @@ public class Friends extends Fragment {
         validateToken(token);
 
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
-        friendsListView = (ListView)view.findViewById(R.id.friendsListView);
-        Log.d("recheck",myDataSet.toString());
-        listAdapter = new FriendsListAdapter(getActivity(), myDataSet);
+
+        // set button listener
+        addButton = (Button)view.findViewById(R.id.addFriend);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddFriendID.class);
+                startActivity(intent);
+            }
+        });
+        friendsListView = (ListView) view.findViewById(R.id.friendsListView);
+        Log.d("recheck", myDataSet.toString());
+        listAdapter = new FriendsListAdapter(getActivity(), myDataSet, imageSet);
         friendsListView.setAdapter(listAdapter);
+
 
         return view;
     }
 
-    public void setJSONtoList(JSONObject response){
+    public void setJSONtoList(JSONObject response) {
         //set response to global jsonObj
         jsonObj = response;
-        Log.d("jsonObj",jsonObj.toString());
+        Log.d("jsonObj", jsonObj.toString());
         // get profile json obj
         try {
             jsonProfile = jsonObj.getJSONObject("profile");
@@ -94,9 +112,10 @@ public class Friends extends Fragment {
         }
 
         // loop over json array
-        for (int i = 0; i<jsonArray.length(); i++){
+        for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 myDataSet.add(jsonArray.getJSONObject(i).getString("email"));
+                imageSet.add(jsonArray.getJSONObject(i).getString("profile_pic"));
                 Log.d("myDataSet", jsonArray.getJSONObject(i).getString("email").toString());
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -123,8 +142,7 @@ public class Friends extends Fragment {
                                 toast.show();
                                 setJSONtoList(response);
 
-                            }
-                            else {
+                            } else {
                                 // error !!!
                                 Toast toast = Toast.makeText(getActivity(), "error calling friends", Toast.LENGTH_SHORT);
                                 toast.show();
@@ -146,4 +164,6 @@ public class Friends extends Fragment {
         requestQueue.add(request);
 
     }
+
+
 }
