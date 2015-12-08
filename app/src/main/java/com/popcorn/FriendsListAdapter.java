@@ -12,9 +12,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * Created by tappasarn on 1/12/2558.
- */
 public class FriendsListAdapter extends BaseAdapter {
 
     private Activity activity;

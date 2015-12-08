@@ -1,5 +1,9 @@
 package com.popcorn.data;
 
+/*
+    This is a class the defines data structure for Movie object.
+    The class is used in Review Fragment inside AutoCompleteTextView's ArrayAdapter
+ */
 public class Movie {
 
     private String title;

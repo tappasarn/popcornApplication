@@ -29,6 +29,9 @@ public class Configurations {
         // Review
         public static final String REVIEW_CREATE_URL = API_BASE_URL + "/reviews/%s/create";
 
+        // Suggestion related endpoints
+        public static final String SUGGESTION_URL = API_BASE_URL + "/suggestions/%s";
+
         // ------------------ Static resource ---------------------------------------
         public static class RESOURCE {
 
