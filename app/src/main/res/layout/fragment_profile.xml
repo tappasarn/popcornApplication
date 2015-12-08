@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
-        android:id="@+id/displayNameText"
+        android:id="@+id/emailText"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp" />
 
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
-        android:id="@+id/userIdText"
+        android:id="@+id/readableIdText"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp" />
 
