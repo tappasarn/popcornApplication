@@ -2,6 +2,7 @@ package com.popcorn;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,10 +45,14 @@ public class FriendsListAdapter extends BaseAdapter {
             vi = inflater.inflate(R.layout.list_friends_info, null);
 
         TextView title = (TextView)vi.findViewById(R.id.friendListName);
-        ImageView image=(ImageView)vi.findViewById(R.id.friendsListImage);
+        ImageView image =(ImageView)vi.findViewById(R.id.friendsListImage);
+
+        //get drawable for image view
+        Drawable myDrawable =  activity.getResources().getDrawable(R.drawable.ic_lock_open_white_24dp);
 
         //set title and picture here
         title.setText(String.valueOf(myList.get(position)));
+        image.setImageDrawable(myDrawable);
 
         return vi;
     }
