@@ -1,6 +1,9 @@
 package com.popcorn.fragments;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.text.Editable;
@@ -11,11 +14,13 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -54,7 +59,16 @@ public class NewReviewFragment extends Fragment {
     private AutoCompleteTextView autoCompleteTextView;
 
     // Volley
-    RequestQueue requestQueue;
+    private RequestQueue requestQueue;
+
+    // Shared Preference
+    private SharedPreferences sharedPreferences;
+
+    // Selected Movie
+    Movie selectedMovie = null;
+
+    // Progress Dialog
+    ProgressDialog loadingDialog;
 
 
 
@@ -64,6 +78,11 @@ public class NewReviewFragment extends Fragment {
 
         // Volley
         requestQueue = Volley.newRequestQueue(getActivity());
+
+        // Shared Preference
+        sharedPreferences = getActivity().getSharedPreferences(
+                Configurations.SHARED_PREF_KEY, Context.MODE_PRIVATE);
+
     }
 
     @Override
@@ -148,6 +167,15 @@ public class NewReviewFragment extends Fragment {
             }
         });
 
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedMovie = mAdapter.getItem(position);
+                Log.d("DEBUG", "Selected item = " + selectedMovie);
+            }
+        });
+
+
     }
 
     private void initializeStars(View view) {
@@ -188,6 +216,57 @@ public class NewReviewFragment extends Fragment {
         addReviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String token = sharedPreferences.getString(Configurations.USER_TOKEN, "");
+
+                JSONObject reviewObj = new JSONObject();
+                try {
+                    reviewObj.put("movie_id", selectedMovie.getId());
+                    reviewObj.put("comment", commentEditText.getText().toString());
+                    reviewObj.put("stars", rating);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                JSONObject requestObj = new JSONObject();
+                try {
+                    requestObj.put("review", reviewObj);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                loadingDialog = ProgressDialog.show(getActivity(), "Submiting review", "Publishing review. This may take some time.");
+
+                JsonObjectRequest request = new JsonObjectRequest(
+                        Request.Method.POST, String.format(Configurations.API.REVIEW_CREATE_URL, token), requestObj,
+
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                loadingDialog.cancel();
+                                try {
+                                    if (!response.getBoolean("error")) {
+                                        Toast.makeText(getActivity(), "Review saved :3", Toast.LENGTH_SHORT)
+                                                .show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(getActivity(), "Something went wrong. Contact Hibiki", Toast.LENGTH_SHORT)
+                                            .show();
+                                }
+
+                            }
+                        },
+
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+
+                            }
+                        }
+                );
+                requestQueue.add(request);
+
 
             }
         });

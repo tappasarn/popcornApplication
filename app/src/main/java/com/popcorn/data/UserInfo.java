@@ -19,8 +19,6 @@ public class UserInfo {
         this.email = email;
         this.profilePicUrl = profilePicUrl;
         this.readableId = readableId;
-
-
     }
 
     public String getToken() {

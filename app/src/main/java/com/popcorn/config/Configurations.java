@@ -26,6 +26,16 @@ public class Configurations {
         // Movie related endpoints
         public static final String MOVIE_SEARCH_URL = API_BASE_URL + "/movies/search/";
 
+        // Review
+        public static final String REVIEW_CREATE_URL = API_BASE_URL + "/reviews/%s/create";
+
+        // ------------------ Static resource ---------------------------------------
+        public static class RESOURCE {
+
+            public static final String PROFILE_IMG_URL = API_BASE_URL + "/uploads/%s";
+
+        }
+
     }
 
     // ------------------ Intent Flags ------------------------------------------
