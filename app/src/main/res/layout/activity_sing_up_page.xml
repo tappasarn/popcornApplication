@@ -31,7 +31,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:id="@+id/userName"
+        android:id="@+id/emailEditText"
         android:background="@color/primary_light"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp" />
@@ -50,7 +50,7 @@
         android:layout_height="30dp"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/password"
+        android:id="@+id/passwordEditText"
         android:background="@color/primary_light"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp" />
@@ -69,7 +69,7 @@
         android:layout_height="30dp"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/confirmPassword"
+        android:id="@+id/passwordConfirmEditText"
         android:background="@color/primary_light"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp" />
@@ -81,7 +81,8 @@
         android:background="#9fd671"
         android:id="@+id/signUpBtn"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="30dp"
+        android:onClick="onSignUpBtnClick" />
 
 
 </LinearLayout>

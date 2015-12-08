@@ -1,4 +1,4 @@
-package com.popcorn;
+package com.popcorn.fragments;
 
 import android.app.Fragment;
 import android.media.Image;
@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.popcorn.R;
 
 
 public class ProfileFragment extends Fragment {

@@ -1,4 +1,4 @@
-package com.popcorn;
+package com.popcorn.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.popcorn.MyAdapter;
+import com.popcorn.R;
 
 
 public class SuggestionFragment extends Fragment {
