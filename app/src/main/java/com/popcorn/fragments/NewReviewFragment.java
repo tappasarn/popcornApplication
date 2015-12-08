@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.popcorn.MyAdapter;
 import com.popcorn.R;
 import com.popcorn.config.Configurations;
 import com.popcorn.data.Movie;
@@ -45,12 +46,12 @@ public class NewReviewFragment extends Fragment {
 
     private int rating;
 
-
     // UIs
     private ImageView[] stars = new ImageView[5];
     private Button addReviewBtn;
     private AutoCompleteTextView movieEditText;
     private EditText commentEditText;
+    private AutoCompleteTextView autoCompleteTextView;
 
     // Volley
     RequestQueue requestQueue;
@@ -81,12 +82,12 @@ public class NewReviewFragment extends Fragment {
 
     private void initializeAutoCompleteTextView(View view) {
 
-        final AppCompatAutoCompleteTextView autoCompleteTextView =
+        autoCompleteTextView =
                 (AppCompatAutoCompleteTextView) view.findViewById(R.id.movie_autocomplete);
 
         autoCompleteTextView.setThreshold(1);
 
-        mAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, autoCompleteDataSet);
+        mAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1);
         autoCompleteTextView.setAdapter(mAdapter);
 
         autoCompleteTextView.addTextChangedListener(new TextWatcher() {
@@ -104,46 +105,41 @@ public class NewReviewFragment extends Fragment {
                 Log.d("DEBUG", searchQuery);
                 Log.d("DEBUG", endpointUrl);
 
-                if (true) {
+                JsonObjectRequest request = new JsonObjectRequest(
+                        Request.Method.GET, endpointUrl, "",
 
-                    JsonObjectRequest request = new JsonObjectRequest(
-                            Request.Method.GET, endpointUrl, "",
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    mAdapter.clear();
+                                    Log.d("DEBUG", response.toString());
+                                    JSONArray movies = response.getJSONArray("movies");
 
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    try {
-                                        mAdapter.clear();
-                                        Log.d("DEBUG", response.toString());
-                                        JSONArray movies = response.getJSONArray("movies");
+                                    for (int i = 0; i < movies.length(); i++) {
+                                        JSONObject movie = movies.getJSONObject(i);
+                                        long id = movie.getLong("id");
+                                        String title = movie.getString("title");
+                                        int year = movie.getInt("year");
 
-                                        for (int i = 0; i < movies.length(); i++) {
-                                            JSONObject movie = movies.getJSONObject(i);
-                                            long id = movie.getLong("id");
-                                            String title = movie.getString("title");
-                                            int year = movie.getInt("year");
-
-                                            mAdapter.add(new Movie(id, title, year));
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    } finally {
-                                        mAdapter.notifyDataSetChanged();
-                                        Log.d("DEBUG", autoCompleteDataSet.toString());
+                                        mAdapter.add(new Movie(id, title, year));
                                     }
-                                }
-                            },
-
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } finally {
+                                    mAdapter.notifyDataSetChanged();
                                 }
                             }
-                    );
-                    requestQueue.add(request);
-                }
+                        },
 
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+
+                            }
+                        }
+                );
+                requestQueue.add(request);
             }
 
             @Override
@@ -210,7 +206,5 @@ public class NewReviewFragment extends Fragment {
             stars[i].setImageDrawable(getActivity().getDrawable(R.drawable.ic_star_grey600_48dp));
         }
     }
-
-
 
 }
