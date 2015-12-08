@@ -19,7 +19,7 @@
                 android:text="Movie Name"
                 android:layout_weight="1"
                 android:textSize="25dp"
-                android:id="@+id/card_text"
+                android:id="@+id/cardText"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:background="@color/primary"
@@ -46,7 +46,8 @@
                 android:gravity="center_horizontal|top"
                 android:textStyle="normal"
                 android:autoText="true"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/ratingText" />
 
 
         </LinearLayout>

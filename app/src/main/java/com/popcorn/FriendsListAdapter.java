@@ -22,9 +22,6 @@ import com.popcorn.config.Configurations;
 
 import java.util.List;
 
-/**
- * Created by tappasarn on 1/12/2558.
- */
 public class FriendsListAdapter extends BaseAdapter {
     private TextView title;
     private ImageView image;
