@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -287,7 +288,7 @@ public class ProfileFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        profileImage.setImageDrawable(getActivity().getDrawable(R.drawable.ic_error_outline_black_24dp));
+                        profileImage.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_error_outline_black_24dp));
                     }
                 }
         );
