@@ -80,6 +80,10 @@
         android:id="@+id/signUpBtn"
         android:background="@android:color/transparent"
         android:layout_gravity="center_horizontal"
+<<<<<<< HEAD
+        android:layout_marginTop="40dp"
+=======
         android:layout_marginTop="10dp"
+>>>>>>> 5392dfdccde906248f335233958f011ad7ba24b5
         android:onClick="onSignUpBtnClick" />
 </LinearLayout>

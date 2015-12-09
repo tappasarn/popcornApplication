@@ -5,14 +5,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -284,10 +282,10 @@ public class NewReviewFragment extends Fragment {
 
     private void redrawSelectedStars() {
         for (ImageView star : stars) {
-            star.setImageDrawable(getActivity().getDrawable(R.drawable.ic_star_outline_grey600_48dp));
+            star.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_star_outline_grey600_48dp));
         }
         for (int i = 0; i < rating; i++) {
-            stars[i].setImageDrawable(getActivity().getDrawable(R.drawable.ic_star_grey600_48dp));
+            stars[i].setImageDrawable(ContextCompat.getDrawable(getActivity(),R.drawable.ic_star_grey600_48dp));
         }
     }
 

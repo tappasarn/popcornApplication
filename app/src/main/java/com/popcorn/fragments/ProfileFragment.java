@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
@@ -286,7 +287,12 @@ public class ProfileFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        profileImage.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_error_outline_black_24dp));
+
+                        Drawable myDrawable = ContextCompat.getDrawable(getActivity(),R.drawable.ic_error_outline_black_24dp);
+                        profileImage.setImageDrawable(myDrawable);
+
+
+
                     }
                 }
         );

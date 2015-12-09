@@ -74,6 +74,7 @@ public class FriendsListAdapter extends BaseAdapter {
         // Call to an API to get image
         ImageRequest imageRequest = new ImageRequest(
                 String.format(Configurations.API.RESOURCE.PROFILE_IMG_URL, currentImg),
+
                 new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap response) {
