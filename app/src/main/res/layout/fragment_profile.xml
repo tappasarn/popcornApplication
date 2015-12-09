@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical">
-
-    <ImageView
+    
+    <com.pkmmte.view.CircularImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:id="@+id/profileImage"
@@ -29,13 +29,5 @@
         android:id="@+id/readableIdText"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="edit"
-        android:id="@+id/editProfileBtn"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp" />
 
 </LinearLayout>

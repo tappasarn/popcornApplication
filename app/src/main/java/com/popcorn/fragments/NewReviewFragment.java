@@ -10,6 +10,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -64,7 +67,6 @@ public class NewReviewFragment extends Fragment {
 
     // Progress Dialog
     ProgressDialog loadingDialog;
-
 
 
     @Override
@@ -170,7 +172,6 @@ public class NewReviewFragment extends Fragment {
             }
         });
 
-
     }
 
     private void initializeStars(View view) {
@@ -214,54 +215,63 @@ public class NewReviewFragment extends Fragment {
 
                 String token = sharedPreferences.getString(Configurations.USER_TOKEN, "");
 
-                JSONObject reviewObj = new JSONObject();
-                try {
-                    reviewObj.put("movie_id", selectedMovie.getId());
-                    reviewObj.put("comment", commentEditText.getText().toString());
-                    reviewObj.put("stars", rating);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                if (selectedMovie != null) {
 
-                JSONObject requestObj = new JSONObject();
-                try {
-                    requestObj.put("review", reviewObj);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    JSONObject reviewObj = new JSONObject();
+                    try {
+                        reviewObj.put("movie_id", selectedMovie.getId());
+                        reviewObj.put("comment", commentEditText.getText().toString());
+                        reviewObj.put("stars", rating);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-                loadingDialog = ProgressDialog.show(getActivity(), "Submiting review", "Publishing review. This may take some time.");
+                    JSONObject requestObj = new JSONObject();
+                    try {
+                        requestObj.put("review", reviewObj);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-                JsonObjectRequest request = new JsonObjectRequest(
-                        Request.Method.POST, String.format(Configurations.API.REVIEW_CREATE_URL, token), requestObj,
+                    loadingDialog = ProgressDialog.show(getActivity(), "Submiting review", "Publishing review. This may take some time.");
 
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                loadingDialog.cancel();
-                                try {
-                                    if (!response.getBoolean("error")) {
-                                        Toast.makeText(getActivity(), "Review saved :3", Toast.LENGTH_SHORT)
+                    JsonObjectRequest request = new JsonObjectRequest(
+                            Request.Method.POST, String.format(Configurations.API.REVIEW_CREATE_URL, token), requestObj,
+
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    loadingDialog.cancel();
+                                    try {
+                                        if (!response.getBoolean("error")) {
+                                            Toast.makeText(getActivity(), "Review saved !", Toast.LENGTH_SHORT)
+                                                    .show();
+                                            // reset inputs frields into default value
+                                            movieEditText.setText("");
+                                            commentEditText.setText("");
+                                            rating = 0;
+                                            redrawSelectedStars();
+                                            ;
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        Toast.makeText(getActivity(), "Something went wrong. Contact Hibiki", Toast.LENGTH_SHORT)
                                                 .show();
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                    Toast.makeText(getActivity(), "Something went wrong. Contact Hibiki", Toast.LENGTH_SHORT)
-                                            .show();
+
                                 }
+                            },
 
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+
+                                }
                             }
-                        },
+                    );
+                    requestQueue.add(request);
 
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-
-                            }
-                        }
-                );
-                requestQueue.add(request);
-
+                }
 
             }
         });

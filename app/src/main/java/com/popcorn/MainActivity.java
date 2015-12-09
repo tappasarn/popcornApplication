@@ -79,9 +79,6 @@ public class MainActivity extends AppCompatActivity {
                     MainActivity.this, "Validating your credentials", "Please wait .. This may takes serveral seconds");
             validateToken(sharedPreferences.getString(Configurations.USER_TOKEN, ""));
         }
-
-
-
     }
 
     private void initDrawer(Bundle savedInstanceState) {

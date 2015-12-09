@@ -168,7 +168,9 @@ public class SignUpActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-
+        if (id == android.R.id.home) {
+            finish();
+        }
 
         return super.onOptionsItemSelected(item);
     }

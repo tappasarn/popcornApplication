@@ -88,11 +88,11 @@ public class Friends extends Fragment {
                 startActivity(intent);
             }
         });
+
         friendsListView = (ListView) view.findViewById(R.id.friendsListView);
 
         Log.d("recheck", myDataSet.toString());
         listAdapter = new FriendsListAdapter(getActivity(), myDataSet, imageSet);
-
 
         // set a long click listenner for the list view
         friendsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -170,8 +170,8 @@ public class Friends extends Fragment {
                 return true;
             }
         });
-
         friendsListView.setAdapter(listAdapter);
+
         return view;
     }
 
@@ -198,10 +198,10 @@ public class Friends extends Fragment {
         // loop over json array
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
-                idSet.add(jsonArray.getJSONObject(i).getString("id"));
+                myDataSet.add(jsonArray.getJSONObject(i).getString("readable_id"));
                 myDataSet.add(jsonArray.getJSONObject(i).getString("email"));
                 imageSet.add(jsonArray.getJSONObject(i).getString("profile_pic"));
-                Log.d("myDataSet", jsonArray.getJSONObject(i).getString("email").toString());
+                Log.d("myDataSet", jsonArray.getJSONObject(i).getString("email"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
