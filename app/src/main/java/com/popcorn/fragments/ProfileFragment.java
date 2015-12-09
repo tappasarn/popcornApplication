@@ -289,8 +289,11 @@ public class ProfileFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
                         Drawable myDrawable = ContextCompat.getDrawable(getActivity(),R.drawable.ic_error_outline_black_24dp);
                         profileImage.setImageDrawable(myDrawable);
+
+
 
                     }
                 }
