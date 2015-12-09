@@ -16,12 +16,12 @@ public class CustomTextInputLayout extends TextInputLayout {
 
     public CustomTextInputLayout(Context context) {
         super(context);
-        setTransitionGroup(true);
+        //setTransitionGroup(true);
     }
 
     public CustomTextInputLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setTransitionGroup(true);
+        //setTransitionGroup(true);
     }
 
     @Override
