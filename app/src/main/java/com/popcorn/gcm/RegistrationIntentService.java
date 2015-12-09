@@ -17,6 +17,7 @@ package com.popcorn.gcm;
  */
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -27,6 +28,7 @@ import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.popcorn.R;
+import com.popcorn.config.Configurations;
 
 import java.io.IOException;
 
@@ -34,14 +36,16 @@ public class RegistrationIntentService extends IntentService {
 
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"global"};
-
+    private  SharedPreferences sharedPreferences, sharedPreferencesGlobal;
     public RegistrationIntentService() {
         super(TAG);
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferencesGlobal = getSharedPreferences(
+                Configurations.SHARED_PREF_KEY, Context.MODE_PRIVATE);
 
         try {
             // [START register_for_gcm]
@@ -100,9 +104,13 @@ public class RegistrationIntentService extends IntentService {
     // [START subscribe_topics]
     private void subscribeTopics(String token) throws IOException {
         GcmPubSub pubSub = GcmPubSub.getInstance(this);
-        for (String topic : TOPICS) {
-            pubSub.subscribe(token, "/topics/" + topic, null);
-        }
+        // subscribe only yourself
+        Log.d("user readable id", sharedPreferencesGlobal.getString(Configurations.USER_READABLE_ID,""));
+                pubSub.subscribe(token, "/topics/" + sharedPreferencesGlobal.getString(Configurations.USER_READABLE_ID, ""), null);
+
+       /* for (String topic : TOPICS) {
+            pubSub.subscribe(token, "/topics/" + "time", null);
+        }*/
     }
     // [END subscribe_topics]
 
