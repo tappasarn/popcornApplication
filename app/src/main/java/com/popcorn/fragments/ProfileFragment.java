@@ -36,9 +36,11 @@ import com.popcorn.config.Configurations;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 
 
 public class ProfileFragment extends Fragment {
@@ -64,21 +66,21 @@ public class ProfileFragment extends Fragment {
             try {
                 // Convert URI into bitmap
                 InputStream is = getActivity().getContentResolver().openInputStream(data.getData());
+
                 Bitmap bitmap = BitmapFactory.decodeStream(is);
+                Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
+
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 70,bos);
 
                 // Convert URI into base64 String
-                byte[] imageBytes = new byte[2 * (int)Math.pow(10, 6)];
-                String base64EncodedString = null;
-                try {
-                    is = getActivity().getContentResolver().openInputStream(data.getData());
-                    is.read(imageBytes);
-                    base64EncodedString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                String base64EncodedString = Base64.encodeToString(bos.toByteArray(), Base64.DEFAULT);
+
+                Log.d("DEBUG", base64EncodedString);
 
                 // Update current image
-                profileImage.setImageBitmap(bitmap);
+                profileImage.setImageBitmap(resizedBitmap);
 
                 JSONObject pictureObj = new JSONObject();
                 try {
@@ -290,8 +292,6 @@ public class ProfileFragment extends Fragment {
 
                         Drawable myDrawable = ContextCompat.getDrawable(getActivity(),R.drawable.ic_error_outline_black_24dp);
                         profileImage.setImageDrawable(myDrawable);
-
-
 
                     }
                 }
