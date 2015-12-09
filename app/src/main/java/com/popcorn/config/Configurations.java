@@ -25,6 +25,10 @@ public class Configurations {
 
         // add new friend
         public static final String ADD_FRIEND = API_BASE_URL + "/users/%s/befriend/%s";
+
+        public static final String UPDATE_PROFILE_IMAGE_URL = API_BASE_URL + "/users/%s/upload";
+        public static final String UPDATE_PROFILE_DISPLAY_NAME = API_BASE_URL + "/users/%s/update";
+
         // Movie related endpoints
         public static final String MOVIE_SEARCH_URL = API_BASE_URL + "/movies/search/";
 
@@ -36,9 +40,7 @@ public class Configurations {
 
         // ------------------ Static resource ---------------------------------------
         public static class RESOURCE {
-
             public static final String PROFILE_IMG_URL = API_BASE_URL + "/uploads/%s";
-
         }
 
     }
