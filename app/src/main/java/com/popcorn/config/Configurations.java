@@ -29,6 +29,9 @@ public class Configurations {
         public static final String UPDATE_PROFILE_IMAGE_URL = API_BASE_URL + "/users/%s/upload";
         public static final String UPDATE_PROFILE_DISPLAY_NAME = API_BASE_URL + "/users/%s/update";
 
+        // remove a friend
+        public static final String REMOVE_FRIEND = API_BASE_URL + "/users/%s/unfriend/%s";
+
         // Movie related endpoints
         public static final String MOVIE_SEARCH_URL = API_BASE_URL + "/movies/search/";
 

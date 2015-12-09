@@ -2,12 +2,18 @@ package com.popcorn;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -22,7 +28,10 @@ import com.popcorn.config.Configurations;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements SensorEventListener {
+    //sensor
+    private SensorManager sensorManager;
+    private long lastUpdate;
 
     // Volley
     private RequestQueue requestQueue;
@@ -33,10 +42,22 @@ public class LoginActivity extends AppCompatActivity {
     // Shared Preference
     private SharedPreferences sharedPreferences;
 
+    private Button button;
+
+
    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        button = (Button)findViewById(R.id.signUpBtn);
+        button.setPaintFlags(button.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        //set lastUpDate time
+        lastUpdate = System.currentTimeMillis();
+
+         //set sensor service
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
         requestQueue = Volley.newRequestQueue(this);
 
@@ -81,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onLoginBtnClick(View view){
+    public void onLoginBtnClick(){
 
         boolean jsonError = false;
 
@@ -160,4 +181,53 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            getAccelerometer(event);
+        }
+    }
+
+    private void getAccelerometer(SensorEvent event) {
+        float[] values = event.values;
+        // Movement
+        float x = values[0];
+        float y = values[1];
+        float z = values[2];
+
+        float accelationSquareRoot = (x * x + y * y + z * z)
+                / (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH);
+        long actualTime = event.timestamp;
+        if (accelationSquareRoot >= 5) //
+        {
+            if (actualTime - lastUpdate < 200) {
+                return;
+            }
+            lastUpdate = actualTime;
+            onLoginBtnClick();
+
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // register this class as a listener for the orientation and
+        // accelerometer sensors
+        sensorManager.registerListener(this,
+                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        // unregister listener
+        super.onPause();
+        sensorManager.unregisterListener(this);
+    }
 }
