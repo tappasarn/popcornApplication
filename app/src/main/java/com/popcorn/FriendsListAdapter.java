@@ -59,6 +59,8 @@ public class FriendsListAdapter extends BaseAdapter {
         title = (TextView)vi.findViewById(R.id.friendListName);
         image =(ImageView)vi.findViewById(R.id.friendsListImage);
 
+        Log.d("myList",myList.toString());
+        Log.d("imageList", imageList.toString());
         //set title and picture here
         title.setText(String.valueOf(myList.get(position)));
         initializeImageViews(image, imageList.get(position));

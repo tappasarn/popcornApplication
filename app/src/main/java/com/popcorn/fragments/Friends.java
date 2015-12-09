@@ -72,7 +72,7 @@ public class Friends extends Fragment {
         userinfo = UserInfo.from(sharedPreferences);
         token = userinfo.getToken();
 
-        removeToken = sharedPreferences.getString(Configurations.USER_TOKEN, "");
+
 
         // send the token to validateToken function
         validateToken(token);
@@ -121,7 +121,7 @@ public class Friends extends Fragment {
                                 listAdapter.notifyDataSetChanged();
 
                                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                                        Request.Method.POST, String.format(Configurations.API.REMOVE_FRIEND,removeToken,removeID),"",
+                                        Request.Method.POST, String.format(Configurations.API.REMOVE_FRIEND,token,removeID),"",
                                         new Response.Listener<JSONObject>() {
                                             @Override
                                             public void onResponse(JSONObject response) {
@@ -198,7 +198,6 @@ public class Friends extends Fragment {
         // loop over json array
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
-                myDataSet.add(jsonArray.getJSONObject(i).getString("readable_id"));
                 myDataSet.add(jsonArray.getJSONObject(i).getString("email"));
                 imageSet.add(jsonArray.getJSONObject(i).getString("profile_pic"));
                 Log.d("myDataSet", jsonArray.getJSONObject(i).getString("email"));
@@ -212,6 +211,7 @@ public class Friends extends Fragment {
     private void validateToken(String token) {
 
         String endpointURL = Configurations.API.USER_INFO_URL + token;
+        Log.d("fucking token", token.toString());
         Log.d("DEBUG", endpointURL);
 
         JsonObjectRequest request = new JsonObjectRequest(
