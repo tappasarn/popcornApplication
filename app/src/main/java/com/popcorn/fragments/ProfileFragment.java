@@ -15,9 +15,6 @@ import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -38,11 +35,9 @@ import com.popcorn.config.Configurations;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.zip.Inflater;
 
 
 public class ProfileFragment extends Fragment {
@@ -71,7 +66,7 @@ public class ProfileFragment extends Fragment {
                 Bitmap bitmap = BitmapFactory.decodeStream(is);
 
                 // Convert URI into base64 String
-                byte[] imageBytes = new byte[10240];
+                byte[] imageBytes = new byte[2 * (int)Math.pow(10, 6)];
                 String base64EncodedString = null;
                 try {
                     is = getActivity().getContentResolver().openInputStream(data.getData());
@@ -271,9 +266,12 @@ public class ProfileFragment extends Fragment {
         String imageURL = sharedPreferences.getString(Configurations.USER_PROFILE_PIC_URL, "default.png");
         Log.d("DEBUG", imageURL);
 
+        String requestImageURL = String.format(Configurations.API.RESOURCE.PROFILE_IMG_URL, imageURL);
+        Log.d("DEBUG", requestImageURL);
+
         // Call to an API to get image
         ImageRequest imageRequest = new ImageRequest(
-                String.format(Configurations.API.RESOURCE.PROFILE_IMG_URL, imageURL),
+                requestImageURL,
                 new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap response) {
