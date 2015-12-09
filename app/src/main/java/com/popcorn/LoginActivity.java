@@ -23,12 +23,19 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.popcorn.config.Configurations;
+import com.popcorn.gcm.RegistrationIntentService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity implements SensorEventListener {
+
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private static final String TAG = "MainActivity";
+
     //sensor
     private SensorManager sensorManager;
     private long lastUpdate;
@@ -67,6 +74,15 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
        // Shared Preferences
        sharedPreferences = getApplication().getSharedPreferences(
                Configurations.SHARED_PREF_KEY, MODE_PRIVATE);
+
+       // Register for GCM
+       if (checkPlayServices()) {
+           // Start IntentService to register this application with GCM.
+           Log.d("DEBUG", "Starting service");
+           Intent intent = new Intent(this, RegistrationIntentService.class);
+           startService(intent);
+       }
+
 
        // Start MainActivity right away if token exists
        // However, put an extra flag to tells MainActivity to do validation again
@@ -230,4 +246,21 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
         super.onPause();
         sensorManager.unregisterListener(this);
     }
+
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
 }
