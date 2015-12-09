@@ -3,7 +3,7 @@
     android:id="@+id/card_view"
     android:layout_gravity="center"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="150dp"
     card_view:cardCornerRadius="10dp"
     android:layout_marginTop="10dip"
     android:layout_marginBottom="10dip"
@@ -11,6 +11,7 @@
     android:layout_marginRight="15dip"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true">
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -18,7 +19,7 @@
             <TextView
                 android:text="Movie Name"
                 android:layout_weight="1"
-                android:textSize="25dp"
+                android:textSize="18dp"
                 android:id="@+id/cardText"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
