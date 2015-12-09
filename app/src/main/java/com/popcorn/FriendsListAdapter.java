@@ -30,13 +30,14 @@ public class FriendsListAdapter extends BaseAdapter {
     private List<String> myList;
     private RequestQueue requestQueue;
     private List<String> imageList;
-
+    private Integer count;
     public FriendsListAdapter(Activity a,List<String> entryList, List<String> imageList) {
         activity = a;
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.myList = entryList;
         this.imageList = imageList;
         requestQueue = Volley.newRequestQueue(a);
+        count = 0;
     }
 
     public int getCount() {
@@ -69,7 +70,9 @@ public class FriendsListAdapter extends BaseAdapter {
     }
 
     private void initializeImageViews(final ImageView image, String currentImg) {
-        Log.d("DEBUG", currentImg);
+
+        Log.d("SUPERMAN", currentImg+count.toString());
+        count++;
 
         // Call to an API to get image
         ImageRequest imageRequest = new ImageRequest(

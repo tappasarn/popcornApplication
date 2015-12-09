@@ -198,6 +198,7 @@ public class Friends extends Fragment {
         // loop over json array
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
+                idSet.add(jsonArray.getJSONObject(i).getString("id"));
                 myDataSet.add(jsonArray.getJSONObject(i).getString("email"));
                 imageSet.add(jsonArray.getJSONObject(i).getString("profile_pic"));
                 Log.d("myDataSet", jsonArray.getJSONObject(i).getString("email"));

@@ -12,6 +12,7 @@
     android:layout_centerHorizontal="true"
     card_view:cardCornerRadius="3dp" >
 
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
