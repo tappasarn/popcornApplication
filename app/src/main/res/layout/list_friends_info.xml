@@ -6,21 +6,19 @@
     android:layout_marginLeft="15dip"
     android:layout_marginRight="15dip"
     android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/friendsListImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        />
-    <TextView
 
+    <com.pkmmte.view.CircularImageView
+        android:id="@+id/friendsListImage"
+        android:layout_marginLeft="10dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/friendListName"
         android:gravity="center_vertical"
         android:textSize="20dp"
         android:paddingLeft="10dp" />
-
-
-
 
 </LinearLayout>
