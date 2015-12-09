@@ -108,6 +108,12 @@ public class ProfileFragment extends Fragment {
                                 Log.d("DEBUG", response.toString());
                                 try {
                                     if (!response.getBoolean("error")) {
+                                        String profilePicName = response.getString("profile_pic");
+
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString(Configurations.USER_PROFILE_PIC_URL, profilePicName);
+                                        editor.commit();
+
                                         Toast.makeText(getActivity(), "Profile image updated :)", Toast.LENGTH_SHORT);
                                     }
                                 } catch (JSONException e) {
@@ -213,6 +219,10 @@ public class ProfileFragment extends Fragment {
                                                 readableIdText.setText(newId);
                                                 Toast.makeText(getActivity(), "User Id Updated", Toast.LENGTH_SHORT)
                                                         .show();
+
+                                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                editor.putString(Configurations.USER_READABLE_ID, newId);
+                                                editor.commit();
                                             }
                                         } catch (JSONException e) {
                                             e.printStackTrace();

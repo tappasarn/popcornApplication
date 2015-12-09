@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
         return super.onOptionsItemSelected(item);
     }
 
-    public void onLoginBtnClick(){
+    public void onLoginBtnClick(View view){
 
         boolean jsonError = false;
 
@@ -204,7 +204,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
                 return;
             }
             lastUpdate = actualTime;
-            onLoginBtnClick();
+            //onLoginBtnClick();
 
         }
     }
