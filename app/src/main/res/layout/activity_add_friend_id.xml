@@ -25,7 +25,7 @@
         android:layout_marginTop="0dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:background="@color/primary_light"
+        android:background="@drawable/round_corner_edit_text"
         android:paddingLeft="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp" />
