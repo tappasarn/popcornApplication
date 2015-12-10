@@ -1,12 +1,10 @@
 package com.popcorn.fragments;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -25,8 +23,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.popcorn.AddFriendID;
 import com.popcorn.FriendsListAdapter;
-import com.popcorn.LoginActivity;
-import com.popcorn.MainActivity;
 import com.popcorn.R;
 import com.popcorn.config.Configurations;
 import com.popcorn.data.UserInfo;
@@ -42,6 +38,7 @@ public class Friends extends Fragment {
     private List<String> myDataSet;
     private List<String> imageSet;
     private List<String> idSet;
+    private List<Integer> reviewCountList;
     private FriendsListAdapter listAdapter;
     private ListView friendsListView;
     private UserInfo userinfo;
@@ -57,9 +54,11 @@ public class Friends extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         myDataSet = new ArrayList<>();
         imageSet = new ArrayList<>();
         idSet = new ArrayList<>();
+        reviewCountList = new ArrayList<>();
 
         // set up request queue
         requestQueue = Volley.newRequestQueue(getActivity());
@@ -68,11 +67,10 @@ public class Friends extends Fragment {
         // first ge the sharedpref obj.
         sharedPreferences = getActivity().getApplication().getSharedPreferences(
                 Configurations.SHARED_PREF_KEY, Context.MODE_PRIVATE);
+
         // get UserInfo
         userinfo = UserInfo.from(sharedPreferences);
         token = userinfo.getToken();
-
-
 
         // send the token to validateToken function
         validateToken(token);
@@ -92,7 +90,7 @@ public class Friends extends Fragment {
         friendsListView = (ListView) view.findViewById(R.id.friendsListView);
 
         Log.d("recheck", myDataSet.toString());
-        listAdapter = new FriendsListAdapter(getActivity(), myDataSet, imageSet);
+        listAdapter = new FriendsListAdapter(getActivity(), myDataSet, imageSet, reviewCountList);
 
         // set a long click listenner for the list view
         friendsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -171,6 +169,7 @@ public class Friends extends Fragment {
     }
 
     public void setJSONtoList(JSONObject response) {
+
         //set response to global jsonObj
         jsonObj = response;
         Log.d("jsonObj", jsonObj.toString());
@@ -196,6 +195,7 @@ public class Friends extends Fragment {
                 idSet.add(jsonArray.getJSONObject(i).getString("id"));
                 myDataSet.add(jsonArray.getJSONObject(i).getString("readable_id"));
                 imageSet.add(jsonArray.getJSONObject(i).getString("profile_pic"));
+                reviewCountList.add(jsonArray.getJSONObject(i).getInt("review_count"));
                 Log.d("myDataSet", jsonArray.getJSONObject(i).getString("email"));
             } catch (JSONException e) {
                 e.printStackTrace();

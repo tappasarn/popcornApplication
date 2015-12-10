@@ -1,10 +1,9 @@
 package com.popcorn;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,23 +19,30 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.popcorn.config.Configurations;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class FriendsListAdapter extends BaseAdapter {
-    private TextView title;
-    private ImageView image;
-    private Activity activity;
-    private static LayoutInflater inflater=null;
+
+    private Context context;
+    private static LayoutInflater inflater = null;
+
     private List<String> myList;
-    private RequestQueue requestQueue;
     private List<String> imageList;
+    private List<Integer> reviewCountList;
+    private RequestQueue requestQueue;
     private Integer count;
-    public FriendsListAdapter(Activity a,List<String> entryList, List<String> imageList) {
-        activity = a;
-        inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+    public FriendsListAdapter(Context context,List<String> entryList, List<String> imageList, List<Integer> reviewCountList) {
+        this.context = context;
+        this.inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
         this.myList = entryList;
         this.imageList = imageList;
-        requestQueue = Volley.newRequestQueue(a);
+        this.reviewCountList = reviewCountList;
+
+        requestQueue = Volley.newRequestQueue(context);
         count = 0;
     }
 
@@ -53,18 +59,23 @@ public class FriendsListAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        View vi=convertView;
-        if(convertView==null)
+        View vi = convertView;
+        if (convertView == null) {
             vi = inflater.inflate(R.layout.list_friends_info, null);
+        }
 
-        title = (TextView)vi.findViewById(R.id.friendListName);
-        image =(ImageView)vi.findViewById(R.id.friendsListImage);
+        TextView nameText = (TextView) vi.findViewById(R.id.friendListName);
+        ImageView profileImage = (ImageView) vi.findViewById(R.id.friendsListImage);
+        TextView reviewCountText = (TextView) vi.findViewById(R.id.reviewCountText);
 
         Log.d("myList",myList.toString());
         Log.d("imageList", imageList.toString());
-        //set title and picture here
-        title.setText(String.valueOf(myList.get(position)));
-        initializeImageViews(image, imageList.get(position));
+        Log.d("reviewCountList", reviewCountList.toString());
+
+        // Set nameText and picture
+        nameText.setText(String.valueOf(myList.get(position)));
+        reviewCountText.setText(String.format("Points: %d Pts", reviewCountList.get(position)));
+        initializeImageViews(profileImage, imageList.get(position));
 
         return vi;
     }
@@ -74,7 +85,7 @@ public class FriendsListAdapter extends BaseAdapter {
         Log.d("SUPERMAN", currentImg+count.toString());
         count++;
 
-        // Call to an API to get image
+        // Call to an API to get profileImage
         ImageRequest imageRequest = new ImageRequest(
                 String.format(Configurations.API.RESOURCE.PROFILE_IMG_URL, currentImg),
 
@@ -92,7 +103,7 @@ public class FriendsListAdapter extends BaseAdapter {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Drawable myDrawable =  activity.getResources().getDrawable(R.drawable.ic_error_outline_black_24dp);
+                        Drawable myDrawable =  ContextCompat.getDrawable(context, R.drawable.ic_error_outline_black_24dp);
                         image.setImageDrawable(myDrawable);
                     }
                 }
