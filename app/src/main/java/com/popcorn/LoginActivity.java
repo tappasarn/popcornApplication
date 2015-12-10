@@ -63,6 +63,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
         button = (Button)findViewById(R.id.signUpBtn);
         button.setPaintFlags(button.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
+        getSupportActionBar().hide();
 
         //set lastUpDate time
         lastUpdate = System.currentTimeMillis();
@@ -151,6 +152,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
 
         JSONObject requestObj = new JSONObject();
         try {
+            Log.d("fuckingaccount",credentialObj.toString());
             requestObj.put("account", credentialObj);
         } catch (JSONException e) {
             jsonError = true;
@@ -238,7 +240,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
                 return;
             }
             lastUpdate = actualTime;
-            //onLoginBtnClick();
+            onLoginBtnClick(this.findViewById(android.R.id.content));
 
         }
     }
