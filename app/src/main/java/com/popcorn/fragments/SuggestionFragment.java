@@ -1,6 +1,7 @@
 package com.popcorn.fragments;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -42,6 +44,9 @@ public class SuggestionFragment extends Fragment {
     // Volley
     private RequestQueue requestQueue;
 
+    // UIs
+    private TextView emptyTextView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +64,9 @@ public class SuggestionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_recommend_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_suggestion, container, false);
+
+        emptyTextView = (TextView) view.findViewById(R.id.emptyTextView);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -75,6 +82,8 @@ public class SuggestionFragment extends Fragment {
     private void initializeSuggestions() {
 
         final List<Suggestion> suggestionsDataSet = new ArrayList<>();
+        final ProgressDialog loadingDialog = ProgressDialog.show(
+                getActivity(), "Preparing", "Loading suggestions from your friends.");
 
         String token = sharedPreferences.getString(Configurations.USER_TOKEN, "");
 
@@ -103,10 +112,20 @@ public class SuggestionFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } finally {
-                            mAdapter = new SuggestionAdapter(getActivity(), suggestionsDataSet);
-                            mRecyclerView.setAdapter(mAdapter);
-                            mAdapter.notifyDataSetChanged();
+                            loadingDialog.cancel();
                         }
+
+                        mAdapter = new SuggestionAdapter(getActivity(), suggestionsDataSet);
+                        mRecyclerView.setAdapter(mAdapter);
+                        mAdapter.notifyDataSetChanged();
+
+                        if (suggestionsDataSet.size() > 0) {
+                            emptyTextView.setVisibility(View.INVISIBLE);
+                        } else {
+                            emptyTextView.setVisibility(View.VISIBLE);
+                        }
+
+
                     }
                 },
 

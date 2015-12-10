@@ -41,7 +41,7 @@ public class DrawerAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View view = View.inflate(context, R.layout.drawer_list, null);
+        View view = View.inflate(context, R.layout.element_drawer_list, null);
 
         ImageView iconImage = (ImageView) view.findViewById(R.id.drawerListIcon);
         TextView menuText = (TextView) view.findViewById(R.id.drawerListText);

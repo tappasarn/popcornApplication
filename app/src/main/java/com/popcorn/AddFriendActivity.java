@@ -31,7 +31,7 @@ public class AddFriendActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_friend_id);
+        setContentView(R.layout.activity_add_friend);
 
         friendID = (EditText)findViewById(R.id.friendID);
         friendID.setSingleLine(true);

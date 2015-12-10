@@ -21,6 +21,11 @@ public class InstantAutoComplete extends AppCompatAutoCompleteTextView {
     }
 
     @Override
+    public boolean enoughToFilter() {
+        return true;
+    }
+
+    @Override
     protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
         super.onFocusChanged(focused, direction, previouslyFocusedRect);
         if (focused) {

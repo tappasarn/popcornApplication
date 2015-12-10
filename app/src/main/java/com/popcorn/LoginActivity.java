@@ -1,5 +1,6 @@
 package com.popcorn;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
@@ -44,12 +45,11 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
     private RequestQueue requestQueue;
 
     // UIs
+    private Button button;
     private EditText emailEditText, passwordEditTExt;
 
     // Shared Preference
     private SharedPreferences sharedPreferences;
-
-    private Button button;
 
 
     @Override
@@ -77,7 +77,6 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
         // Shared Preferences
         sharedPreferences = getApplication().getSharedPreferences(
                 Configurations.SHARED_PREF_KEY, MODE_PRIVATE);
-
 
         // Start MainActivity right away if token exists
         // However, put an extra flag to tells MainActivity to do validation again
@@ -113,7 +112,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
         return super.onOptionsItemSelected(item);
     }
 
-    public void onLoginBtnClick(View view){
+    public void onLoginBtnClick(final View view){
 
         boolean jsonError = false;
 
@@ -141,7 +140,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
 
         JSONObject requestObj = new JSONObject();
         try {
-            Log.d("fuckingaccount",credentialObj.toString());
+            Log.d("ACCOUNT",credentialObj.toString());
             requestObj.put("account", credentialObj);
         } catch (JSONException e) {
             jsonError = true;
@@ -150,6 +149,9 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
 
         if (!jsonError) {
 
+            final ProgressDialog loadingDialog = ProgressDialog.show(
+                    LoginActivity.this, "Signing in ..", "We are preparing the awesomeness.");
+
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.POST, Configurations.API.LOGIN_URL, requestObj,
 
@@ -157,6 +159,9 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
+
+                                loadingDialog.cancel();
+
                                 if (!response.getBoolean("error")) {
 
                                     JSONObject profile = response.getJSONObject("profile");
@@ -178,8 +183,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
 
                                     finish();
                                 } else {
-                                    Toast.makeText(LoginActivity.this, "Incorrect username/password :3", Toast.LENGTH_SHORT)
-                                            .show();
+                                    SnackbarUtils.show(view, "Incorrect username/password :3");
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -201,7 +205,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
 
     }
 
-    public void onSignUpBtnClick(View view){
+    public void onSignUpBtnClick(final View view){
         Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
         startActivity(intent);
     }

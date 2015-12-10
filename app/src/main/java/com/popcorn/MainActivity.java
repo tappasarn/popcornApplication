@@ -15,7 +15,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.android.volley.Request;
@@ -27,8 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.popcorn.config.Configurations;
-import com.popcorn.data.UserInfo;
-import com.popcorn.fragments.Friends;
+import com.popcorn.fragments.FriendsFragment;
 import com.popcorn.fragments.NewReviewFragment;
 import com.popcorn.fragments.ProfileFragment;
 import com.popcorn.fragments.SuggestionFragment;
@@ -37,7 +35,6 @@ import com.popcorn.gcm.RegistrationIntentService;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -96,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         boolean revalidateToken = receivedIntent.getBooleanExtra(Configurations.REVALIDATE_TOKEN, true);
         if (revalidateToken) {
             loadingDialog = ProgressDialog.show(
-                    MainActivity.this, "Validating your credentials", "Please wait .. This may takes serveral seconds");
+                    MainActivity.this, "Validating your credentials", "Please wait .. This may takes several seconds");
             validateToken(sharedPreferences.getString(Configurations.USER_TOKEN, ""));
         }
 
@@ -156,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = new SuggestionFragment();
         switch(position) {
             case 1: fragment = new NewReviewFragment(); break;
-            case 2: fragment = new Friends(); break;
+            case 2: fragment = new FriendsFragment(); break;
             case 3: fragment = new ProfileFragment(); break;
             case 4:
                 // Sign out, clear the shared preference

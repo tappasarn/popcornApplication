@@ -1,95 +1,102 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     tools:context=".MainActivity"
-    android:orientation="vertical"
-    android:padding="12dp">
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Movie Name"
-        android:id="@+id/textView5"
-        android:textSize="12dp"
-        android:layout_marginLeft="5dp" />
-
-    <com.popcorn.hacks.InstantAutoComplete
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/movie_autocomplete"/>
-
-    <com.popcorn.hacks.CustomTextInputLayout
-        android:id="@+id/input_layout_comment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/commentEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_comment" />
-
-    </com.popcorn.hacks.CustomTextInputLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Rate Movie"
-        android:id="@+id/textView6"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:textSize="12dp"
-        android:layout_marginLeft="5dp" />
+    android:fillViewport="true">
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+        android:orientation="vertical"
+        android:padding="12dp">
 
-        <ImageView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/star1"
-            android:src="@drawable/ic_star_outline_grey600_48dp" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Movie Name"
+            android:id="@+id/textView5"
+            android:textSize="12sp"
+            android:layout_marginLeft="5dp" />
 
-        <ImageView
+        <com.popcorn.hacks.InstantAutoComplete
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/movie_autocomplete"/>
+
+        <com.popcorn.hacks.CustomTextInputLayout
+            android:id="@+id/input_layout_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/commentEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_comment" />
+
+        </com.popcorn.hacks.CustomTextInputLayout>
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/star2"
-            android:src="@drawable/ic_star_outline_grey600_48dp" />
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Rate Movie"
+            android:id="@+id/textView6"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="12sp"
+            android:layout_marginLeft="5dp" />
 
-        <ImageView
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/star3"
-            android:src="@drawable/ic_star_outline_grey600_48dp" />
+            android:layout_gravity="center_horizontal">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/star4"
-            android:src="@drawable/ic_star_outline_grey600_48dp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/star1"
+                android:src="@drawable/ic_star_outline_grey600_48dp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/star5"
-            android:src="@drawable/ic_star_outline_grey600_48dp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/star2"
+                android:src="@drawable/ic_star_outline_grey600_48dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/star3"
+                android:src="@drawable/ic_star_outline_grey600_48dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/star4"
+                android:src="@drawable/ic_star_outline_grey600_48dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/star5"
+                android:src="@drawable/ic_star_outline_grey600_48dp" />
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="ADD REVIEW"
+            android:id="@+id/addReviewBtn"
+            android:layout_marginTop="20dp"
+            android:textColor="#ffffff" />
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="ADD REVIEW"
-        android:id="@+id/addReviewBtn"
-        android:layout_marginTop="20dp"
-        android:textColor="#ffffff" />
+</ScrollView>
 
 
-</LinearLayout>

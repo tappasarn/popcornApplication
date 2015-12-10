@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Friends extends Fragment {
+public class FriendsFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private List<String> myDataSet;
     private List<String> imageSet;
@@ -50,6 +51,8 @@ public class Friends extends Fragment {
     private Button addButton;
     private int keeppos;
     private String removeToken;
+
+    private TextView emptyTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,6 +79,8 @@ public class Friends extends Fragment {
         validateToken(token);
 
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
+
+        emptyTextView = (TextView) view.findViewById(R.id.emptyTextView);
 
         // set button listener
         addButton = (Button)view.findViewById(R.id.addFriend);
@@ -202,7 +207,16 @@ public class Friends extends Fragment {
                 e.printStackTrace();
             }
         }
+
+        if (idSet.size() > 0) {
+            emptyTextView.setVisibility(View.INVISIBLE);
+        } else {
+            emptyTextView.setVisibility(View.VISIBLE);
+        }
+
         listAdapter.notifyDataSetChanged();
+
+
     }
 
     private void validateToken(String token) {

@@ -19,8 +19,6 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.popcorn.config.Configurations;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 public class FriendsListAdapter extends BaseAdapter {
@@ -63,7 +61,7 @@ public class FriendsListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi = convertView;
         if (convertView == null) {
-            vi = inflater.inflate(R.layout.list_friends_info, null);
+            vi = inflater.inflate(R.layout.element_friend_info_cell, null);
         }
 
         TextView nameText = (TextView) vi.findViewById(R.id.friendListName);
