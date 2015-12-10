@@ -28,6 +28,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.popcorn.config.Configurations;
 import com.popcorn.gcm.RegistrationIntentService;
+import com.popcorn.utils.SnackbarUtils;
+import com.popcorn.utils.ValidationUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,7 +55,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
     private Button button;
 
 
-   @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -65,7 +67,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
         //set lastUpDate time
         lastUpdate = System.currentTimeMillis();
 
-         //set sensor service
+        //set sensor service
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
         requestQueue = Volley.newRequestQueue(this);
@@ -74,29 +76,28 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
         emailEditText.setSingleLine(true);
         passwordEditTExt = (EditText) findViewById(R.id.passwordEditText);
 
+        // Shared Preferences
+        sharedPreferences = getApplication().getSharedPreferences(
+                Configurations.SHARED_PREF_KEY, MODE_PRIVATE);
 
-       // Shared Preferences
-       sharedPreferences = getApplication().getSharedPreferences(
-               Configurations.SHARED_PREF_KEY, MODE_PRIVATE);
-
-       // Register for GCM
-       if (checkPlayServices()) {
-           // Start IntentService to register this application with GCM.
-           Log.d("DEBUG", "Starting service");
-           Intent intent = new Intent(this, RegistrationIntentService.class);
-           startService(intent);
-       }
+        // Register for GCM
+        if (checkPlayServices()) {
+            // Start IntentService to register this application with GCM.
+            Log.d("DEBUG", "Starting service");
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        }
 
 
-       // Start MainActivity right away if token exists
-       // However, put an extra flag to tells MainActivity to do validation again
-       String token = sharedPreferences.getString(Configurations.USER_TOKEN, "");
-       if (token.length() > 0) {
-           Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-           intent.putExtra(Configurations.REVALIDATE_TOKEN, true);
-           startActivity(intent);
-           finish();
-       }
+        // Start MainActivity right away if token exists
+        // However, put an extra flag to tells MainActivity to do validation again
+        String token = sharedPreferences.getString(Configurations.USER_TOKEN, "");
+        if (token.length() > 0) {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.putExtra(Configurations.REVALIDATE_TOKEN, true);
+            startActivity(intent);
+            finish();
+        }
 
     }
 
@@ -125,6 +126,19 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
     public void onLoginBtnClick(View view){
 
         boolean jsonError = false;
+
+        String email = emailEditText.getText().toString();
+        String password = passwordEditTExt.getText().toString();
+
+        if (!ValidationUtils.isEmailValid(email)) {
+            SnackbarUtils.show(view, "Email is invalid.");
+            return;
+        }
+
+        if (!ValidationUtils.isPasswordValid(password)) {
+            SnackbarUtils.show(view, "Password needs to be at least 4 characters long.");
+            return;
+        }
 
         JSONObject credentialObj = new JSONObject();
         try {
@@ -172,8 +186,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
                                     startActivity(intent);
 
                                     finish();
-                                }
-                                else {
+                                } else {
                                     Toast.makeText(LoginActivity.this, "Incorrect username/password :3", Toast.LENGTH_SHORT)
                                             .show();
                                 }
@@ -190,10 +203,11 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
                         }
                     }
             );
-
             requestQueue.add(jsonObjectRequest);
 
         }
+
+
     }
 
     public void onSignUpBtnClick(View view){

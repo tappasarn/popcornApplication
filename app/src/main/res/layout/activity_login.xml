@@ -28,6 +28,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="30dp"
+        android:inputType="textEmailAddress"
         android:id="@+id/emailEditText"
         android:background="@color/primary_light"
         android:layout_gravity="center_horizontal"

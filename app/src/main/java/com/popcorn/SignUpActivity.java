@@ -19,6 +19,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.popcorn.config.Configurations;
+import com.popcorn.utils.SnackbarUtils;
+import com.popcorn.utils.ValidationUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,9 +69,18 @@ public class SignUpActivity extends AppCompatActivity {
         String password = passwordEditTExt.getText().toString();
         String passwordConfirm = passwordConfirmEditText.getText().toString();
 
+        if (!ValidationUtils.isEmailValid(email)) {
+            SnackbarUtils.show(view, "Email is invalid.");
+            return;
+        }
+
+        if (!ValidationUtils.isPasswordValid(password)) {
+            SnackbarUtils.show(view, "Password needs to be at least 4 characters long.");
+            return;
+        }
+
         if (!password.equals(passwordConfirm)) {
-            Toast.makeText(SignUpActivity.this, "Password doesn't match :(", Toast.LENGTH_SHORT)
-                    .show();
+            SnackbarUtils.show(view, "Password doesn't match :(");
             return;
         }
 
@@ -130,7 +141,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         Iterator<String> keys = error.keys();
                                         while (keys.hasNext()) {
                                             String key = keys.next();
-                                            errorString += key + ": " + error.getJSONArray(key).getString(0) + " ";
+                                            errorString += key + " " + error.getJSONArray(key).getString(0) + " ";
                                         }
                                     }
                                     Toast.makeText(SignUpActivity.this, errorString, Toast.LENGTH_SHORT)
@@ -149,7 +160,6 @@ public class SignUpActivity extends AppCompatActivity {
                         }
                     }
             );
-
             requestQueue.add(jsonObjectRequest);
 
         }
