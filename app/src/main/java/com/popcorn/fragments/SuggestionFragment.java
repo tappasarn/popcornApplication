@@ -91,9 +91,13 @@ public class SuggestionFragment extends Fragment {
                                 for (int i = 0; i < suggestions.length(); i++) {
                                     JSONObject suggestion = suggestions.getJSONObject(i);
                                     Log.d("DEBUG", suggestion.toString());
+
                                     String title = suggestion.getString("movie_title");
                                     int rating = suggestion.getInt("rating");
-                                    suggestionsDataSet.add(new Suggestion(title, rating));
+                                    String genre = suggestion.getString("genre");
+                                    String plot = suggestion.getString("plot");
+
+                                    suggestionsDataSet.add(new Suggestion(title, rating, genre, plot));
                                 }
                             }
                         } catch (JSONException e) {

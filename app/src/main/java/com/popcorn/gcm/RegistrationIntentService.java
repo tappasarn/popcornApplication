@@ -106,11 +106,7 @@ public class RegistrationIntentService extends IntentService {
         GcmPubSub pubSub = GcmPubSub.getInstance(this);
         // subscribe only yourself
         Log.d("user readable id", sharedPreferencesGlobal.getString(Configurations.USER_READABLE_ID,""));
-                pubSub.subscribe(token, "/topics/" + sharedPreferencesGlobal.getString(Configurations.USER_READABLE_ID, ""), null);
-
-       /* for (String topic : TOPICS) {
-            pubSub.subscribe(token, "/topics/" + "time", null);
-        }*/
+        pubSub.subscribe(token, "/topics/" + sharedPreferencesGlobal.getString(Configurations.USER_READABLE_ID, ""), null);
     }
     // [END subscribe_topics]
 

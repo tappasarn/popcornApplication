@@ -49,9 +49,13 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Vi
 
         TextView movieText = (TextView) holder.mCardView.findViewById(R.id.cardText);
         TextView ratingText = (TextView) holder.mCardView.findViewById(R.id.ratingText);
+        TextView genreText = (TextView) holder.mCardView.findViewById(R.id.genreText);
+        TextView plotText = (TextView) holder.mCardView.findViewById(R.id.plotText);
 
         movieText.setText(mDataset.get(position).getTitle());
         ratingText.setText(String.valueOf(mDataset.get(position).getRating()));
+        genreText.setText(mDataset.get(position).getGenre());
+        plotText.setText(mDataset.get(position).getPlot());
     }
 
     @Override

@@ -65,7 +65,10 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.75"
-                    android:padding="8dp">
+                    android:paddingRight="10dp"
+                    android:paddingLeft="3dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -80,9 +83,8 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="Horror/Scary"
-                        android:id="@+id/textView11"
-                        android:textSize="12dp"
-                        android:layout_marginTop="1dp" />
+                        android:id="@+id/genreText"
+                        android:textSize="12dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -100,10 +102,9 @@
                         android:ellipsize="end"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="This is a movie for Sitang and her friends. THe movie is about her life and the journey through the opium forest. It is awared by Opium Magazine 2015."
-                        android:id="@+id/textView13"
+                        android:id="@+id/plotText"
                         android:textSize="12dp"
-                        android:singleLine="false"
-                        android:layout_marginTop="1dp" />
+                        android:singleLine="false" />
 
                 </LinearLayout>
             </LinearLayout>

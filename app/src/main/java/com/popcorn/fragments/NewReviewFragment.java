@@ -4,7 +4,9 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.text.Editable;
@@ -19,6 +21,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -30,6 +33,7 @@ import com.android.volley.toolbox.Volley;
 import com.popcorn.R;
 import com.popcorn.config.Configurations;
 import com.popcorn.data.Movie;
+import com.popcorn.utils.SnackbarUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -213,7 +217,7 @@ public class NewReviewFragment extends Fragment {
 
                 String token = sharedPreferences.getString(Configurations.USER_TOKEN, "");
 
-                if (selectedMovie != null) {
+                if (validate()) {
 
                     JSONObject reviewObj = new JSONObject();
                     try {
@@ -253,8 +257,6 @@ public class NewReviewFragment extends Fragment {
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
-                                        Toast.makeText(getActivity(), "Something went wrong. Contact Hibiki", Toast.LENGTH_SHORT)
-                                                .show();
                                     }
 
                                 }
@@ -269,6 +271,9 @@ public class NewReviewFragment extends Fragment {
                     );
                     requestQueue.add(request);
 
+                }
+                else { /* Validate fails show snackbar message */
+                    SnackbarUtils.show(getView(), "Please enter the movie name.");
                 }
 
             }
@@ -287,6 +292,10 @@ public class NewReviewFragment extends Fragment {
         for (int i = 0; i < rating; i++) {
             stars[i].setImageDrawable(ContextCompat.getDrawable(getActivity(),R.drawable.ic_star_grey600_48dp));
         }
+    }
+
+    private boolean validate() {
+        return (selectedMovie != null);
     }
 
 }

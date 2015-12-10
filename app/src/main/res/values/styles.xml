@@ -3,7 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:colorButtonNormal">#5291a3</item>
+        <item name="android:colorButtonNormal">#1cc5f5</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
