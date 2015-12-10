@@ -107,11 +107,6 @@ public class Friends extends Fragment {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast toast = Toast.makeText(getActivity(), "a user remove", Toast.LENGTH_SHORT);
-                                toast.show();
-
-
-
                                 // remove user name and image away from the list view
                                 myDataSet.remove(keeppos);
                                 imageSet.remove(keeppos);
@@ -127,11 +122,11 @@ public class Friends extends Fragment {
                                             public void onResponse(JSONObject response) {
                                                 try {
                                                     if (!response.getBoolean("error")) {
-                                                        Toast toast = Toast.makeText(getActivity(), "remove is happy", Toast.LENGTH_SHORT);
+                                                        Toast toast = Toast.makeText(getActivity(), "friend removed", Toast.LENGTH_SHORT);
                                                         toast.show();
                                                     }
                                                     else {
-                                                        Toast toast = Toast.makeText(getActivity(), "remove is not happy", Toast.LENGTH_SHORT);
+                                                        Toast toast = Toast.makeText(getActivity(), "remove is not completed", Toast.LENGTH_SHORT);
                                                         toast.show();
                                                     }
                                                 } catch (JSONException e) {
@@ -199,7 +194,7 @@ public class Friends extends Fragment {
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 idSet.add(jsonArray.getJSONObject(i).getString("id"));
-                myDataSet.add(jsonArray.getJSONObject(i).getString("email"));
+                myDataSet.add(jsonArray.getJSONObject(i).getString("readable_id"));
                 imageSet.add(jsonArray.getJSONObject(i).getString("profile_pic"));
                 Log.d("myDataSet", jsonArray.getJSONObject(i).getString("email"));
             } catch (JSONException e) {
@@ -212,7 +207,7 @@ public class Friends extends Fragment {
     private void validateToken(String token) {
 
         String endpointURL = Configurations.API.USER_INFO_URL + token;
-        Log.d("fucking token", token.toString());
+        Log.d("DEBUG", token.toString());
         Log.d("DEBUG", endpointURL);
 
         JsonObjectRequest request = new JsonObjectRequest(
@@ -224,13 +219,12 @@ public class Friends extends Fragment {
                         Log.d("DEBUG", response.toString());
                         try {
                             if (!response.getBoolean("error")) {
-                                Toast toast = Toast.makeText(getActivity(), "no error bitch", Toast.LENGTH_SHORT);
-                                toast.show();
+
                                 setJSONtoList(response);
 
                             } else {
                                 // error !!!
-                                Toast toast = Toast.makeText(getActivity(), "error calling friends", Toast.LENGTH_SHORT);
+                                Toast toast = Toast.makeText(getActivity(), "error fetching friends", Toast.LENGTH_SHORT);
                                 toast.show();
                             }
                         } catch (JSONException e) {

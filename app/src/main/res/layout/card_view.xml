@@ -20,11 +20,10 @@
 
             <TextView
                 android:text="Movie Name"
-                android:layout_weight="0.5"
                 android:textSize="16dp"
                 android:id="@+id/cardText"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="50dp"
                 android:background="#3b3b3b"
                 android:gravity="center_vertical"
                 android:textColor="@color/icons"

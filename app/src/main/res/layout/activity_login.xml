@@ -33,7 +33,8 @@
         android:background="@color/primary_light"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:autoText="false" />
+        android:autoText="false"
+        android:paddingLeft="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -52,7 +53,8 @@
         android:id="@+id/passwordEditText"
         android:background="@color/primary_light"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:paddingLeft="5dp" />
 
 
 
