@@ -9,6 +9,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,6 +61,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
         button = (Button)findViewById(R.id.signUpBtn);
         button.setPaintFlags(button.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
+
         //set lastUpDate time
         lastUpdate = System.currentTimeMillis();
 
@@ -69,7 +71,9 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
         requestQueue = Volley.newRequestQueue(this);
 
         emailEditText = (EditText) findViewById(R.id.emailEditText);
+        emailEditText.setSingleLine(true);
         passwordEditTExt = (EditText) findViewById(R.id.passwordEditText);
+
 
        // Shared Preferences
        sharedPreferences = getApplication().getSharedPreferences(

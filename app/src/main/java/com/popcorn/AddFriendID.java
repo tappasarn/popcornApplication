@@ -32,12 +32,20 @@ public class AddFriendID extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friend_id);
+
         friendID = (EditText)findViewById(R.id.friendID);
+        friendID.setSingleLine(true);
+
+        //get sharepref to get the token
         sharedPreferences = getSharedPreferences(
                 Configurations.SHARED_PREF_KEY, Context.MODE_PRIVATE);
         token = sharedPreferences.getString(Configurations.USER_TOKEN, "");
+
+        //get request queue
         requestQueue = Volley.newRequestQueue(this);
 
+        //set up back button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void onAddClick(View view){
@@ -84,13 +92,14 @@ public class AddFriendID extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
-        return super.onOptionsItemSelected(item);
     }
 }

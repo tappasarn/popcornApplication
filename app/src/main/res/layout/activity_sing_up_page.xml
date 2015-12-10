@@ -86,7 +86,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
         android:onClick="onSignUpBtnClick"
-        android:textColor="#ffffff"
+        android:textColor="@color/primary_text"
         android:layout_weight="0.03" />
 
 </LinearLayout>
