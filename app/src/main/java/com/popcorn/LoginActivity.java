@@ -36,9 +36,6 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity implements SensorEventListener {
 
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    private static final String TAG = "MainActivity";
-
     //sensor
     private SensorManager sensorManager;
     private long lastUpdate;
@@ -80,14 +77,6 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
         // Shared Preferences
         sharedPreferences = getApplication().getSharedPreferences(
                 Configurations.SHARED_PREF_KEY, MODE_PRIVATE);
-
-        // Register for GCM
-        if (checkPlayServices()) {
-            // Start IntentService to register this application with GCM.
-            Log.d("DEBUG", "Starting service");
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            startService(intent);
-        }
 
 
         // Start MainActivity right away if token exists
@@ -265,22 +254,6 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
         // unregister listener
         super.onPause();
         sensorManager.unregisterListener(this);
-    }
-
-    private boolean checkPlayServices() {
-        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
-                        .show();
-            } else {
-                Log.i(TAG, "This device is not supported.");
-                finish();
-            }
-            return false;
-        }
-        return true;
     }
 
 }

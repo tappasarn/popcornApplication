@@ -103,7 +103,7 @@ public class SuggestionFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } finally {
-                            mAdapter = new SuggestionAdapter(suggestionsDataSet);
+                            mAdapter = new SuggestionAdapter(getActivity(), suggestionsDataSet);
                             mRecyclerView.setAdapter(mAdapter);
                             mAdapter.notifyDataSetChanged();
                         }
