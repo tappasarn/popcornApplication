@@ -24,12 +24,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.popcorn.config.Configurations;
 import com.popcorn.data.UserInfo;
 import com.popcorn.fragments.Friends;
 import com.popcorn.fragments.NewReviewFragment;
 import com.popcorn.fragments.ProfileFragment;
 import com.popcorn.fragments.SuggestionFragment;
+import com.popcorn.gcm.RegistrationIntentService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,6 +41,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private static final String TAG = "MainActivity";
 
     private String[] titles = new String[]{"Recommend", "Create Review", "Friends", "Profile", "Sign out"};
     private ListView drawerList;
@@ -80,9 +86,8 @@ public class MainActivity extends AppCompatActivity {
         // Intent
         Intent receivedIntent = getIntent();
 
-        //get intent from addFriend activity
-        Intent intent = getIntent();
-        boolean reloadFriends = intent.getBooleanExtra(Configurations.NOTIFY_FRIEND_ADDED, false);
+        // Reload friends if precious activity request so
+        boolean reloadFriends = receivedIntent.getBooleanExtra(Configurations.NOTIFY_FRIEND_ADDED, false);
         if (reloadFriends){
             selectItem(2);
         }
@@ -93,6 +98,14 @@ public class MainActivity extends AppCompatActivity {
             loadingDialog = ProgressDialog.show(
                     MainActivity.this, "Validating your credentials", "Please wait .. This may takes serveral seconds");
             validateToken(sharedPreferences.getString(Configurations.USER_TOKEN, ""));
+        }
+
+        // Register for GCM
+        if (checkPlayServices()) {
+            // Start IntentService to register this application with GCM.
+            Log.d("DEBUG", "Starting service");
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
         }
 
     }
@@ -242,6 +255,22 @@ public class MainActivity extends AppCompatActivity {
         else{
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
     }
 
 }
