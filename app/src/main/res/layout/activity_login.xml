@@ -16,15 +16,6 @@
         android:layout_marginTop="30dp"
         android:src="@drawable/logo_white" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Email"
-        android:id="@+id/textView"
-        android:layout_marginTop="40dp"
-        android:textColor="@color/primary_light"
-        android:textSize="18dp" />
-
     <EditText
         android:layout_width="match_parent"
         android:layout_height="30dp"
@@ -32,28 +23,21 @@
         android:id="@+id/emailEditText"
         android:background="@color/primary_light"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="35dp"
         android:autoText="false"
+        android:hint="Email"
         android:paddingLeft="5dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Password"
-        android:textColor="@color/primary_light"
-        android:textSize="18dp"
-        android:id="@+id/textView2"
-        android:layout_marginTop="15dp" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:inputType="textPassword"
+        android:hint="Password"
         android:ems="10"
         android:id="@+id/passwordEditText"
         android:background="@color/primary_light"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="25dp"
         android:paddingLeft="5dp" />
 
 
@@ -64,9 +48,18 @@
         android:text="SIGN IN"
         android:id="@+id/button2"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="30dp"
         android:layout_weight="0.04"
         android:onClick="onLoginBtnClick" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="or shake to sign in"
+        android:id="@+id/textView11"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:textColor="#4f575b" />
 
     <Button
         android:layout_width="wrap_content"
@@ -75,7 +68,7 @@
         android:id="@+id/signUpBtn"
         android:background="@android:color/transparent"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="130dp"
         android:onClick="onSignUpBtnClick"
         android:textColor="@color/primary_light" />
 </LinearLayout>

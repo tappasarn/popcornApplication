@@ -55,7 +55,7 @@ public class FriendsListAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        View vi=convertView;
+        View vi = convertView;
         if(convertView==null)
             vi = inflater.inflate(R.layout.list_friends_info, null);
 
