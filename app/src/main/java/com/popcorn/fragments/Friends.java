@@ -86,6 +86,7 @@ public class Friends extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddFriendID.class);
                 startActivity(intent);
+                getActivity().finish();
             }
         });
 

@@ -40,6 +40,8 @@ public class FriendsListAdapter extends BaseAdapter {
         count = 0;
     }
 
+
+
     public int getCount() {
         return myList.size();
     }

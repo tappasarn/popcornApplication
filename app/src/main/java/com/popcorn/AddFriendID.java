@@ -58,8 +58,13 @@ public class AddFriendID extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             if (!response.getBoolean("error")) {
-                                Toast toast = Toast.makeText(AddFriendID.this, "happy", Toast.LENGTH_SHORT);
+                                Toast toast = Toast.makeText(AddFriendID.this, "friend added", Toast.LENGTH_SHORT);
                                 toast.show();
+
+                                Intent intent = new Intent(AddFriendID.this,MainActivity.class);
+                                intent.putExtra("addFriend",1);
+                                intent.putExtra(Configurations.REVALIDATE_TOKEN,false);
+                                startActivity(intent);
                             }
                             else {
                                 Toast toast = Toast.makeText(AddFriendID.this, "ID error", Toast.LENGTH_SHORT);
@@ -95,7 +100,10 @@ public class AddFriendID extends AppCompatActivity {
 
         switch (item.getItemId()){
             case android.R.id.home:
-                finish();
+                Intent intent = new Intent(AddFriendID.this,MainActivity.class);
+                intent.putExtra("addFriend",1);
+                intent.putExtra(Configurations.REVALIDATE_TOKEN,false);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     private ProgressDialog loadingDialog;
+    private int checkNewFriend;
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        checkNewFriend = 0;
         setContentView(R.layout.activity_main);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -72,6 +74,14 @@ public class MainActivity extends AppCompatActivity {
         // Intent
         Intent receivedIntent = getIntent();
 
+        //get intent from addFriend activity
+        Intent intent = getIntent();
+        checkNewFriend = intent.getIntExtra("addFriend",0);
+        if(checkNewFriend == 1){
+            selectItem(2);
+        }
+
+
         // Perform validation of token if previous activity request so
         boolean revalidateToken = receivedIntent.getBooleanExtra(Configurations.REVALIDATE_TOKEN, true);
         if (revalidateToken) {
@@ -79,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     MainActivity.this, "Validating your credentials", "Please wait .. This may takes serveral seconds");
             validateToken(sharedPreferences.getString(Configurations.USER_TOKEN, ""));
         }
+
     }
 
     private void initDrawer(Bundle savedInstanceState) {
@@ -90,9 +101,11 @@ public class MainActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_activated_1, titles));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
 
+
         if (savedInstanceState == null) {
             selectItem(0);
         }
+
 
         // Create the ActionBarDrawerToggle
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
