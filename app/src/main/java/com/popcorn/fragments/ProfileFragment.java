@@ -32,6 +32,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.popcorn.R;
 import com.popcorn.config.Configurations;
+import com.popcorn.utils.SnackbarUtils;
+import com.popcorn.utils.ValidationUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -163,7 +165,7 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-    private void initializeTextViews(View view) {
+    private void initializeTextViews(final View view) {
         emailText = (TextView) view.findViewById(R.id.emailText);
         readableIdText = (TextView) view.findViewById(R.id.readableIdText);
 
@@ -176,7 +178,7 @@ public class ProfileFragment extends Fragment {
 
                 // Inflate
                 View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.update_id_form, null);
-                /// Retrieve edittext
+                /// Retrieve edit text
                 final EditText idEditText = (EditText) dialogView.findViewById(R.id.userIdEditText);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -191,6 +193,11 @@ public class ProfileFragment extends Fragment {
 
                         final String newId = idEditText.getText().toString();
                         final String token = sharedPreferences.getString(Configurations.USER_TOKEN, "");
+
+                        if (!ValidationUtils.isReadableIdValid(newId)) {
+                            SnackbarUtils.show(view, "ID can only contains A-Z a-z");
+                            return;
+                        }
 
                         JSONObject profileObj = new JSONObject();
                         try {
@@ -216,8 +223,7 @@ public class ProfileFragment extends Fragment {
                                         try {
                                             if (!response.getBoolean("error")) {
                                                 readableIdText.setText(newId);
-                                                Toast.makeText(getActivity(), "User Id Updated", Toast.LENGTH_SHORT)
-                                                        .show();
+                                                SnackbarUtils.show(view, "User ID is updated.");
 
                                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                                 editor.putString(Configurations.USER_READABLE_ID, newId);
