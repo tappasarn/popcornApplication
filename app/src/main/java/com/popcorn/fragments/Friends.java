@@ -21,7 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.popcorn.AddFriendID;
+import com.popcorn.AddFriendActivity;
 import com.popcorn.FriendsListAdapter;
 import com.popcorn.R;
 import com.popcorn.config.Configurations;
@@ -82,7 +82,7 @@ public class Friends extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddFriendID.class);
+                Intent intent = new Intent(getActivity(), AddFriendActivity.class);
                 startActivity(intent);
                 getActivity().finish();
             }

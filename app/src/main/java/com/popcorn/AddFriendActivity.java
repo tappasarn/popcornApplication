@@ -23,7 +23,7 @@ import com.popcorn.config.Configurations;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AddFriendID extends AppCompatActivity {
+public class AddFriendActivity extends AppCompatActivity {
     private EditText friendID;
     private SharedPreferences sharedPreferences;
     private String token;
@@ -58,16 +58,16 @@ public class AddFriendID extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             if (!response.getBoolean("error")) {
-                                Toast toast = Toast.makeText(AddFriendID.this, "friend added", Toast.LENGTH_SHORT);
+                                Toast toast = Toast.makeText(AddFriendActivity.this, "friend added", Toast.LENGTH_SHORT);
                                 toast.show();
 
-                                Intent intent = new Intent(AddFriendID.this,MainActivity.class);
+                                Intent intent = new Intent(AddFriendActivity.this,MainActivity.class);
                                 intent.putExtra(Configurations.NOTIFY_FRIEND_ADDED, true);
                                 intent.putExtra(Configurations.REVALIDATE_TOKEN,false);
                                 startActivity(intent);
                             }
                             else {
-                                Toast toast = Toast.makeText(AddFriendID.this, "ID error", Toast.LENGTH_SHORT);
+                                Toast toast = Toast.makeText(AddFriendActivity.this, "ID error", Toast.LENGTH_SHORT);
                                 toast.show();
                             }
                         } catch (JSONException e) {
@@ -100,8 +100,8 @@ public class AddFriendID extends AppCompatActivity {
 
         switch (item.getItemId()){
             case android.R.id.home:
-                Intent intent = new Intent(AddFriendID.this,MainActivity.class);
-                intent.putExtra("addFriend",1);
+                Intent intent = new Intent(AddFriendActivity.this,MainActivity.class);
+                intent.putExtra(Configurations.NOTIFY_FRIEND_ADDED, true);
                 intent.putExtra(Configurations.REVALIDATE_TOKEN,false);
                 startActivity(intent);
                 return true;
