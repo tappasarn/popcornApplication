@@ -62,7 +62,7 @@ public class AddFriendID extends AppCompatActivity {
                                 toast.show();
 
                                 Intent intent = new Intent(AddFriendID.this,MainActivity.class);
-                                intent.putExtra("addFriend",1);
+                                intent.putExtra(Configurations.NOTIFY_FRIEND_ADDED, true);
                                 intent.putExtra(Configurations.REVALIDATE_TOKEN,false);
                                 startActivity(intent);
                             }

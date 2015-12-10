@@ -170,7 +170,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
 
                                     JSONObject profile = response.getJSONObject("profile");
                                     String token = profile.getString("token");
-                                    String readableId = profile.getString("id");
+                                    String readableId = profile.getString("readable_id");
                                     String email = profile.getString("email");
                                     String profilePicUrl = profile.getString("profile_pic");
 

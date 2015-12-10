@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.android.volley.Request;
@@ -33,16 +34,21 @@ import com.popcorn.fragments.SuggestionFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
-    private String[] titles;
+    private String[] titles = new String[]{"Recommend", "Create Review", "Friends", "Profile", "Sign out"};
     private ListView drawerList;
+    private List<SimpleDrawerItem> items;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
 
     // Volley
     private RequestQueue requestQueue;
 
+    // Shared Preference
     private SharedPreferences sharedPreferences;
 
     private ProgressDialog loadingDialog;
@@ -76,11 +82,10 @@ public class MainActivity extends AppCompatActivity {
 
         //get intent from addFriend activity
         Intent intent = getIntent();
-        checkNewFriend = intent.getIntExtra("addFriend",0);
-        if(checkNewFriend == 1){
+        boolean reloadFriends = intent.getBooleanExtra(Configurations.NOTIFY_FRIEND_ADDED, false);
+        if (reloadFriends){
             selectItem(2);
         }
-
 
         // Perform validation of token if previous activity request so
         boolean revalidateToken = receivedIntent.getBooleanExtra(Configurations.REVALIDATE_TOKEN, true);
@@ -93,30 +98,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initDrawer(Bundle savedInstanceState) {
-        titles = getResources().getStringArray(R.array.titles);
-        drawerList = (ListView)findViewById(R.id.drawer);
+        drawerList = (ListView) findViewById(R.id.drawer);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        // Setup items in the drawer
+        SimpleDrawerItem[] items = new SimpleDrawerItem[5];
+        items[0] = new SimpleDrawerItem(R.drawable.ic_fiber_new_black_24dp, "Recommend");
+        items[1] = new SimpleDrawerItem(R.drawable.ic_rate_review_black_24dp, "Create Review");
+        items[2] = new SimpleDrawerItem(R.drawable.ic_people_black_24dp, "Friends");
+        items[3] = new SimpleDrawerItem(R.drawable.ic_face_black_24dp, "Profile");
+        items[4] = new SimpleDrawerItem(R.drawable.ic_input_black_24dp, "Sign out");
 
         drawerList.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_activated_1, titles));
-        drawerList.setOnItemClickListener(new DrawerItemClickListener());
 
+        drawerList.setAdapter(new DrawerAdapter(getApplication(), items));
+        drawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         if (savedInstanceState == null) {
             selectItem(0);
         }
 
-
         // Create the ActionBarDrawerToggle
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
                 R.string.open_drawer, R.string.close_drawer) {
 
-            //Called when a drawer has settled in a completely closed state
+            // Called when a drawer has settled in a completely closed state
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu();
             }
-            //Called when a drawer has settled in a completely open state.
+            // Called when a drawer has settled in a completely open state.
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu();
@@ -130,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
         Fragment fragment = new SuggestionFragment();
         switch(position) {
-            case 1: fragment = new NewReviewFragment();  break;
+            case 1: fragment = new NewReviewFragment(); break;
             case 2: fragment = new Friends(); break;
             case 3: fragment = new ProfileFragment(); break;
             case 4:

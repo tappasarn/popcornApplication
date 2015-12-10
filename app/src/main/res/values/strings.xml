@@ -22,6 +22,6 @@
 
     <string name="open_drawer">Open drawer</string>
     <string name="close_drawer">Close drawer</string>
-    <string name="title_activity_add_friend_id">AddFriendID</string>
+    <string name="title_activity_add_friend_id">Add Friend by ID</string>
 
 </resources>

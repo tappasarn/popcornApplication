@@ -9,4 +9,8 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
     <color name="colorAccent">#3fc2ff</color>
+
+    <!-- Drawer -->
+    <color name="drawer_list_pressed">#ececec</color>
+    <color name="drawer_list_selected">#3fc2ff</color>
 </resources>

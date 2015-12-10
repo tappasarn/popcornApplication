@@ -51,5 +51,6 @@ public class Configurations {
     // ------------------ Intent Flags ------------------------------------------
 
     public static final String REVALIDATE_TOKEN = "com.popcorn.revalidate_token";
+    public static final String NOTIFY_FRIEND_ADDED = "com.popcorn.notify_friend_added";
 
 }

@@ -101,7 +101,7 @@ public class Friends extends Fragment {
                 keeppos = pos;
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("Remove a User");
-                builder.setMessage("are you sure ?");
+                builder.setMessage("Are you sure ?");
 
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
