@@ -16,7 +16,7 @@ public class Configurations {
 
     public static class API {
 
-        public static final String API_BASE_URL = "http://172.29.50.45:3000";
+        public static final String API_BASE_URL = "http://popcornplus-dev.hibikiledo.me";
 
         // Users related endpoints
         public static final String LOGIN_URL = API_BASE_URL + "/users/login";
