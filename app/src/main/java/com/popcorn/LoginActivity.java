@@ -158,6 +158,7 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
+                            Log.d("DEBUG", response.toString());
                             try {
 
                                 loadingDialog.cancel();
@@ -195,13 +196,14 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.d("DEBUG", error.toString());
+                            loadingDialog.cancel();
+                            SnackbarUtils.show(view, "Unexpected error. Contact Hibiki");
                         }
                     }
             );
             requestQueue.add(jsonObjectRequest);
 
         }
-
 
     }
 
