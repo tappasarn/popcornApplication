@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,22 +34,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Friends extends Fragment {
+public class FriendsFragment extends Fragment {
+
     private SharedPreferences sharedPreferences;
+
+    // Lists for holding dataSets
     private List<String> myDataSet;
     private List<String> imageSet;
     private List<String> idSet;
     private List<Integer> reviewCountList;
+
     private FriendsListAdapter listAdapter;
+
+    // UIs
     private ListView friendsListView;
+    private TextView emptyTextView;
+    private Button addButton;
+
     private UserInfo userinfo;
     private String token;
+
     private RequestQueue requestQueue;
     private JSONObject jsonObj;
     private JSONObject jsonProfile;
+
     private JSONArray jsonArray;
-    private Button addButton;
     private int keeppos;
+
     private String removeToken;
 
     @Override
@@ -60,24 +72,32 @@ public class Friends extends Fragment {
         idSet = new ArrayList<>();
         reviewCountList = new ArrayList<>();
 
-        // set up request queue
+        // Set up request queue
         requestQueue = Volley.newRequestQueue(getActivity());
 
-        // get list of friends from sharepref.
-        // first ge the sharedpref obj.
+        // Get shared preference
         sharedPreferences = getActivity().getApplication().getSharedPreferences(
                 Configurations.SHARED_PREF_KEY, Context.MODE_PRIVATE);
 
-        // get UserInfo
+        // Get UserInfo and Token
         userinfo = UserInfo.from(sharedPreferences);
         token = userinfo.getToken();
 
-        // send the token to validateToken function
+        // Send the token to validateToken function
         validateToken(token);
 
+        // Inflat XML into view
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
 
-        // set button listener
+        // Connects to UIs
+        emptyTextView = (TextView) view.findViewById(R.id.emptyTextView);
+        friendsListView = (ListView) view.findViewById(R.id.friendsListView);
+
+        // Adapter
+        listAdapter = new FriendsListAdapter(getActivity(), myDataSet, imageSet, reviewCountList);
+        friendsListView.setAdapter(listAdapter);
+
+        // Set button listener
         addButton = (Button)view.findViewById(R.id.addFriend);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,12 +108,9 @@ public class Friends extends Fragment {
             }
         });
 
-        friendsListView = (ListView) view.findViewById(R.id.friendsListView);
+        Log.d("RECHECK", myDataSet.toString());
 
-        Log.d("recheck", myDataSet.toString());
-        listAdapter = new FriendsListAdapter(getActivity(), myDataSet, imageSet, reviewCountList);
-
-        // set a long click listenner for the list view
+        // Set a long click listener for the list view
         friendsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
@@ -115,17 +132,16 @@ public class Friends extends Fragment {
                                 listAdapter.notifyDataSetChanged();
 
                                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                                        Request.Method.POST, String.format(Configurations.API.REMOVE_FRIEND,token,removeID),"",
+                                        Request.Method.POST, String.format(Configurations.API.REMOVE_FRIEND, token, removeID), "",
                                         new Response.Listener<JSONObject>() {
                                             @Override
                                             public void onResponse(JSONObject response) {
                                                 try {
                                                     if (!response.getBoolean("error")) {
-                                                        Toast toast = Toast.makeText(getActivity(), "friend removed", Toast.LENGTH_SHORT);
+                                                        Toast toast = Toast.makeText(getActivity(), "Friend removed", Toast.LENGTH_SHORT);
                                                         toast.show();
-                                                    }
-                                                    else {
-                                                        Toast toast = Toast.makeText(getActivity(), "remove is not completed", Toast.LENGTH_SHORT);
+                                                    } else {
+                                                        Toast toast = Toast.makeText(getActivity(), "Removing friend results in error.", Toast.LENGTH_SHORT);
                                                         toast.show();
                                                     }
                                                 } catch (JSONException e) {
@@ -146,7 +162,6 @@ public class Friends extends Fragment {
                         }
                 );
 
-
                 // set negative Button
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
 
@@ -161,20 +176,21 @@ public class Friends extends Fragment {
 
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
+
                 return true;
             }
         });
-        friendsListView.setAdapter(listAdapter);
 
         return view;
     }
 
-    public void setJSONtoList(JSONObject response) {
+    public void parseResponseToLists(JSONObject response) {
 
-        //set response to global jsonObj
+        // Set response to global jsonObj
         jsonObj = response;
         Log.d("jsonObj", jsonObj.toString());
-        // get profile json obj
+
+        // Get profile json obj
         try {
             jsonProfile = jsonObj.getJSONObject("profile");
             Log.d("jsonProfile", jsonProfile.toString());
@@ -182,7 +198,7 @@ public class Friends extends Fragment {
             e.printStackTrace();
         }
 
-        // get json string
+        // Get json string
         try {
             jsonArray = jsonProfile.getJSONArray("friends");
             Log.d("jsonArray", jsonArray.toString());
@@ -190,18 +206,26 @@ public class Friends extends Fragment {
             e.printStackTrace();
         }
 
-        // loop over json array
+        // Loop over json array
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 idSet.add(jsonArray.getJSONObject(i).getString("id"));
                 myDataSet.add(jsonArray.getJSONObject(i).getString("readable_id"));
                 imageSet.add(jsonArray.getJSONObject(i).getString("profile_pic"));
                 reviewCountList.add(jsonArray.getJSONObject(i).getInt("review_count"));
+
                 Log.d("myDataSet", jsonArray.getJSONObject(i).getString("email"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+
+        if (idSet.size() > 0) {
+            emptyTextView.setVisibility(View.INVISIBLE);
+        } else {
+            emptyTextView.setVisibility(View.VISIBLE);
+        }
+
         listAdapter.notifyDataSetChanged();
     }
 
@@ -221,11 +245,10 @@ public class Friends extends Fragment {
                         try {
                             if (!response.getBoolean("error")) {
 
-                                setJSONtoList(response);
+                                parseResponseToLists(response);
 
                             } else {
-                                // error !!!
-                                Toast toast = Toast.makeText(getActivity(), "error fetching friends", Toast.LENGTH_SHORT);
+                                Toast toast = Toast.makeText(getActivity(), "Error fetching friends", Toast.LENGTH_SHORT);
                                 toast.show();
                             }
                         } catch (JSONException e) {
@@ -241,10 +264,8 @@ public class Friends extends Fragment {
                     }
                 }
         );
-
         requestQueue.add(request);
 
     }
-
 
 }

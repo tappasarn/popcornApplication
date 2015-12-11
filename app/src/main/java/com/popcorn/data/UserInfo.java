@@ -4,6 +4,9 @@ import android.content.SharedPreferences;
 
 import com.popcorn.config.Configurations;
 
+/**
+ * This is a helper class for easy access to user information. *
+ */
 public class UserInfo {
 
     private String token;

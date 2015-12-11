@@ -13,4 +13,5 @@
     <!-- Drawer -->
     <color name="drawer_list_pressed">#ececec</color>
     <color name="drawer_list_selected">#3fc2ff</color>
+
 </resources>
