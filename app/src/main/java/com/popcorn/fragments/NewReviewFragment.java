@@ -4,9 +4,7 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.text.Editable;
@@ -21,7 +19,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -103,11 +100,10 @@ public class NewReviewFragment extends Fragment {
         autoCompleteTextView =
                 (AppCompatAutoCompleteTextView) view.findViewById(R.id.movie_autocomplete);
 
-        autoCompleteTextView.setThreshold(1);
-
         mAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1);
         autoCompleteTextView.setAdapter(mAdapter);
 
+        // When text in autoCompleteTextView changes, reload data set from server and show suggestion
         autoCompleteTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -161,11 +157,10 @@ public class NewReviewFragment extends Fragment {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
-            }
+            public void afterTextChanged(Editable s) { }
         });
 
+        // When autocomplete text is selected, save selected moview into selectedMovie
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -235,7 +230,8 @@ public class NewReviewFragment extends Fragment {
                         e.printStackTrace();
                     }
 
-                    loadingDialog = ProgressDialog.show(getActivity(), "Submiting review", "Publishing review. This may take some time.");
+                    loadingDialog = ProgressDialog.show(
+                            getActivity(), "Submiting review", "Publishing review. This may take some time.");
 
                     JsonObjectRequest request = new JsonObjectRequest(
                             Request.Method.POST, String.format(Configurations.API.REVIEW_CREATE_URL, token), requestObj,

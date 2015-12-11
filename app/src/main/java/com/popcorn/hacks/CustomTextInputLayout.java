@@ -9,6 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+/**
+ * This is a monkey patching for UI error.
+ * The problem is missing label when the view is first loaded.
+ * This Patch fix the issue by override the onDraw to show the Hint properly.
+ */
 public class CustomTextInputLayout extends TextInputLayout {
 
     private boolean mIsHintSet;

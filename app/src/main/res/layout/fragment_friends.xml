@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="You has no friend. Add one below!"
+        android:text="You have no friend. Add one below!"
         android:id="@+id/emptyTextView"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"

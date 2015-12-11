@@ -15,12 +15,10 @@ public class DrawerAdapter extends BaseAdapter {
 
     private Context context;
     private SimpleDrawerItem[] items;
-    private LayoutInflater inflator;
 
     public DrawerAdapter(Context context, SimpleDrawerItem[] items) {
         this.context = context;
         this.items = items;
-        this.inflator = LayoutInflater.from(context);
     }
 
     @Override

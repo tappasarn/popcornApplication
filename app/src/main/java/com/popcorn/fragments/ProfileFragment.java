@@ -164,6 +164,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void initializeTextViews(final View view) {
+
         emailText = (TextView) view.findViewById(R.id.emailText);
         readableIdText = (TextView) view.findViewById(R.id.readableIdText);
 
@@ -176,6 +177,7 @@ public class ProfileFragment extends Fragment {
 
                 // Inflate
                 View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.element_update_id_form, null);
+
                 /// Retrieve edit text
                 final EditText idEditText = (EditText) dialogView.findViewById(R.id.userIdEditText);
 

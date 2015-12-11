@@ -1,6 +1,9 @@
 package com.popcorn.config;
 
-
+/**
+ * Configuration class that contains FLAG and Configurations
+ * that are used across the application. *
+ */
 public class Configurations {
 
     public static final String SHARED_PREF_KEY = "com.popcorn.sharedPreferences";
@@ -13,23 +16,18 @@ public class Configurations {
 
 
     // ------------------ APIs --------------------------------------------------
-
     public static class API {
 
+        // Base URI
         public static final String API_BASE_URL = "http://popcornplus-dev.hibikiledo.me";
 
         // Users related endpoints
         public static final String LOGIN_URL = API_BASE_URL + "/users/login";
         public static final String SIGNUP_URL = API_BASE_URL + "/users/create";
         public static final String USER_INFO_URL = API_BASE_URL + "/users/";
-
-        // add new friend
-        public static final String ADD_FRIEND = API_BASE_URL + "/users/%s/befriend/%s";
-
         public static final String UPDATE_PROFILE_IMAGE_URL = API_BASE_URL + "/users/%s/upload";
         public static final String UPDATE_PROFILE_DISPLAY_NAME = API_BASE_URL + "/users/%s/update";
-
-        // remove a friend
+        public static final String ADD_FRIEND = API_BASE_URL + "/users/%s/befriend/%s";
         public static final String REMOVE_FRIEND = API_BASE_URL + "/users/%s/unfriend/%s";
 
         // Movie related endpoints
@@ -48,8 +46,7 @@ public class Configurations {
 
     }
 
-    // ------------------ Intent Flags ------------------------------------------
-
+    // ------------------ Intent Flags ---------------------------------------------
     public static final String REVALIDATE_TOKEN = "com.popcorn.revalidate_token";
     public static final String NOTIFY_FRIEND_ADDED = "com.popcorn.notify_friend_added";
 

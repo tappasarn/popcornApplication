@@ -6,6 +6,13 @@ import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.util.AttributeSet;
 import android.widget.AutoCompleteTextView;
 
+/**
+ * This class override enoughToFilter() to ignore the value of
+ * `threshold`.
+ *
+ * This allows autoCompleteTextView to gives completion candidates
+ * instantly.
+ */
 public class InstantAutoComplete extends AppCompatAutoCompleteTextView {
 
     public InstantAutoComplete(Context context) {

@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.popcorn.config.Configurations;
+import com.popcorn.utils.SnackbarUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,20 +37,20 @@ public class AddFriendActivity extends AppCompatActivity {
         friendID = (EditText)findViewById(R.id.friendID);
         friendID.setSingleLine(true);
 
-        //get sharepref to get the token
+        // Get shared preference and retrieve token
         sharedPreferences = getSharedPreferences(
                 Configurations.SHARED_PREF_KEY, Context.MODE_PRIVATE);
         token = sharedPreferences.getString(Configurations.USER_TOKEN, "");
 
-        //get request queue
+        // Get request queue
         requestQueue = Volley.newRequestQueue(this);
 
-        //set up back button
+        // Set up back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    public void onAddClick(View view){
-        // send new friend ID to user
+    public void onAddClick(final View view){
+        // Send new friend ID to server
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST, String.format(Configurations.API.ADD_FRIEND,token,friendID.getText().toString()), "",
 
@@ -58,8 +59,7 @@ public class AddFriendActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             if (!response.getBoolean("error")) {
-                                Toast toast = Toast.makeText(AddFriendActivity.this, "friend added", Toast.LENGTH_SHORT);
-                                toast.show();
+                                Toast.makeText(AddFriendActivity.this, "Friend Added!", Toast.LENGTH_SHORT).show();
 
                                 Intent intent = new Intent(AddFriendActivity.this,MainActivity.class);
                                 intent.putExtra(Configurations.NOTIFY_FRIEND_ADDED, true);
